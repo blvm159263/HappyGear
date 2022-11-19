@@ -1,6 +1,7 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.entities.User;
+import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,10 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userService;
 
     @GetMapping("/user")
     public List<User> getAllUser(){
-        return userService.getAllUser();
+        return userService.findAll();
     }
 }
