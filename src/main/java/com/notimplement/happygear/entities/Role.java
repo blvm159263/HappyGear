@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "tbl_role")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "tbl_role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,8 @@ public class Role {
     @Column(name = "status")
     private boolean status;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role",
+            cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> users;
 }

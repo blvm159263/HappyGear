@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "tbl_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "tbl_user")
 public class User {
     @Id
     @Column(name = "userId")
@@ -33,7 +33,7 @@ public class User {
     @Column(name = "gender")
     private boolean gender;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "roleId")
     private Role role;
 }
