@@ -1,11 +1,11 @@
 package com.notimplement.happygear.entities;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_user")
@@ -16,7 +16,7 @@ public class User {
     @Id
     @Column(name = "userId")
     private String userId;
-    @Column(name = "userName")
+    @Column(name = "username")
     private String username;
     @Column(name = "age")
     private int age;
@@ -24,6 +24,7 @@ public class User {
     private String address;
     @Column(name = "password")
     private String password;
+    @Column(name = "email")
     private String email;
     @Column(name = "phoneNumber")
     private String phoneNumber;
@@ -32,8 +33,7 @@ public class User {
     @Column(name = "gender")
     private boolean gender;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "roleId")
-    @JsonBackReference
     private Role role;
 }
