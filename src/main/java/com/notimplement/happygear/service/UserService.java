@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface UserService {
     List<User> getAllUser();
-    Optional<User> getUserByUserId(String id);
+    User getUserByUserId(String id);
 }
