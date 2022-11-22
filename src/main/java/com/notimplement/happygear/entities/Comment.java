@@ -6,20 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Table(name = "tbl_comment")
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "comment_id")
-    private long commentId;
-    @Column(name = "content")
-    private String content;
 
-    @ManyToOne
-    private User user;
+public class Comment {
+
 
 }

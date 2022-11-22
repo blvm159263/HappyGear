@@ -54,8 +54,8 @@ create table tbl_product_picture(
 );
 
 create table tbl_product_description(
-	description_id bigint not null primary key auto_increment,
-	product_id bigint not null,
+	product_id bigint not null primary key auto_increment ,
+    foreign key (product_id) references tbl_product(product_id),
     category_id bigint not null,
     keycap varchar(50),
     switch varchar(50),
@@ -78,7 +78,6 @@ create table tbl_product_description(
     frame_rate varchar(50),
     screen_size varchar(50),
     screen_type varchar(50),
-    Foreign key (product_id) references tbl_product(product_id),
 	Foreign key (category_id) references tbl_category(category_id)
 );
 
@@ -110,3 +109,11 @@ create table tbl_comment(
     Foreign key (user_name) references tbl_user(user_name),
     Foreign key (product_id) references tbl_product(product_id)
 );
+
+insert into tbl_role(role_name) values('role_admin'),('role_user');
+
+insert into tbl_user(user_name,full_name,`password`,address,email,phone_number,role_id,gender,`status`) 
+values
+('nguyenhuy','Nguyen Hoang Duc Huy','123','48 Le Loi, Q Tan Binh','nguyenhuy@gmail.com','0912345678',1,1,1),
+('hungtran','Tran The Hung','123','49 Tran Xuan Soan, Q 7','hungtran@gmail.com','0912345678',2,1,1),
+('hongtran','Tran Hong','123','78 Huong Lo 2, Q Binh Tan','hongtran@gmail.com','0912345678',2,1,1);
