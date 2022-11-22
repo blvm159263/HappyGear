@@ -1,6 +1,5 @@
 package com.notimplement.happygear.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,19 +13,17 @@ import javax.persistence.*;
 @Table(name = "tbl_user")
 public class User {
     @Id
-    @Column(name = "userId")
-    private String userId;
-    @Column(name = "username")
-    private String username;
-    @Column(name = "age")
-    private int age;
-    @Column(name = "address")
-    private String address;
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "full_name")
+    private String fullName;
     @Column(name = "password")
     private String password;
+    @Column(name = "address")
+    private String address;
     @Column(name = "email")
     private String email;
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "status")
     private boolean status;
@@ -34,6 +31,6 @@ public class User {
     private boolean gender;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "roleId")
+    @JoinColumn(name = "role_id")
     private Role role;
 }
