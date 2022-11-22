@@ -1,13 +1,13 @@
 package com.notimplement.happygear.model.mapper;
 
 import com.notimplement.happygear.entities.Role;
-import com.notimplement.happygear.model.dto.RoleDTO;
+import com.notimplement.happygear.model.dto.RoleDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RoleMapper {
-    public RoleDTO toRoleDTO(Role role){
-        RoleDTO dto = new RoleDTO();
+    public RoleDto toRoleDTO(Role role){
+        RoleDto dto = new RoleDto();
         dto.setRoleId(role.getRoleId());
         dto.setRoleName(role.getRoleName());
         dto.setStatus(role.isStatus());
