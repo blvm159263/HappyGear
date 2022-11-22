@@ -10,4 +10,5 @@ public interface UserService {
     User getUserByUserName(String id);
     void saveUser(User user);
     void deleteUser(String username);
+    List<User> searchUser(String name);
 }

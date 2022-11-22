@@ -13,7 +13,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepo;
 
     @Override
-    public Role getRoleById(int id) {
+    public Role getRoleById(long id) {
         return roleRepo.findById(id).orElse(null);
     }
 }

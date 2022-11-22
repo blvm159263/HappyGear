@@ -1,7 +1,7 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.entities.User;
-import com.notimplement.happygear.model.dto.UserDTO;
+import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.UserMapper;
 import com.notimplement.happygear.service.RoleService;
 import com.notimplement.happygear.service.UserService;
@@ -23,20 +23,26 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @GetMapping("/users/search")
+    public ResponseEntity<?> searchUser(@RequestParam(name = "fullname") String name){
+        List<UserDto> listUsers = userService.searchUser(name).stream().map(userMapper::toUserDto).collect(Collectors.toList());
+        return ResponseEntity.ok(listUsers);
+    }
+
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUser(){
-        List<UserDTO> listUser = userService.getAllUser().stream().map(userMapper::toUserDTO).collect(Collectors.toList());
+    public ResponseEntity<?> getListUser(){
+        List<UserDto> listUser = userService.getAllUser().stream().map(userMapper::toUserDto).collect(Collectors.toList());
         return ResponseEntity.ok(listUser);
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserByUserId(@PathVariable(name = "id") String id){
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getUserByUserId(@PathVariable String id){
         User user = userService.getUserByUserName(id);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(UserDTO userDTO){
+    @PostMapping("/users/save")
+    public ResponseEntity<User> saveUser(UserDto userDTO){
         User savedUser = new User();
         savedUser.setUserName(userDTO.getUserName());
         savedUser.setFullName(userDTO.getFullName());
