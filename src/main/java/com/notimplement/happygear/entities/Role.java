@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
+
+@Table(name = "tbl_role")
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

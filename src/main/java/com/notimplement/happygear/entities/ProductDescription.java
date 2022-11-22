@@ -13,10 +13,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Table(name = "tbl_product_description")
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDescription {
