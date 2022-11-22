@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetailDto {
-    private long detailId;
-    private long orderId;
-    private double price;
-    private int quantity;
-    private boolean status;
-    private long productId;
+    private Integer detailId;
+    private Integer orderId;
+    private Double price;
+    private Integer quantity;
+    private Boolean status;
+    private Integer productId;
 }

@@ -4,15 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
-    private long orderId;
+    private Integer orderId;
     private String userName;
     private Date date;
-    private double total;
-    private int status;
+    private Double total;
+    private Integer status;
+
+
+
 }
