@@ -16,10 +16,10 @@ import java.util.Set;
 @Table(name = "tbl_role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "roleId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "role_id")
     private int roleId;
-    @Column(name = "roleName")
+    @Column(name = "role_name")
     private String roleName;
     @Column(name = "status")
     private boolean status;
