@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +36,6 @@ public class Brand {
 	private Boolean status;
 	
 	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
-	@JsonManagedReference
+	@JsonIgnore
 	private Set<Product> products;
 }

@@ -1,5 +1,6 @@
 package com.notimplement.happygear.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,6 @@ public class Role {
     private Boolean status;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<User> users;
 }

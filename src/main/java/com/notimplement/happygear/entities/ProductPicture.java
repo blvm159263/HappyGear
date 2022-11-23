@@ -25,6 +25,5 @@ public class ProductPicture {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonBackReference
     private Product pictureProduct;
 }

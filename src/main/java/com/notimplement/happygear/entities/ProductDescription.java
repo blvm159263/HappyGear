@@ -93,12 +93,10 @@ public class ProductDescription {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	@JsonBackReference
 	private Category desCategory;
 	
 	@OneToOne
 	@JoinColumn(name = "product_id")
-	@JsonBackReference
 	private Product product;
 	
 	

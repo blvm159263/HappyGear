@@ -43,14 +43,13 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonBackReference
     private Role role;
 
     @OneToMany(mappedBy = "commentUser", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Order> orders;
 }

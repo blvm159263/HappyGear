@@ -23,11 +23,9 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonBackReference
     private Product commentProduct;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
-    @JsonBackReference
     private User commentUser;
 }

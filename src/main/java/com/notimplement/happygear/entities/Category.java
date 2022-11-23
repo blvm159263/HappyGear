@@ -6,8 +6,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
@@ -28,10 +36,10 @@ public class Category {
     private Boolean status;
     
     @OneToMany(mappedBy = "proCategory", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Product> products;
     
     @OneToMany(mappedBy = "desCategory", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<ProductDescription> proDescs;
 }

@@ -28,12 +28,10 @@ public class OrderDetail {
     private Boolean status;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "product_id")
     private Product orderdetailProduct;
 
