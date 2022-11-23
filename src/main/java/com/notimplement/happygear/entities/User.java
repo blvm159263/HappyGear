@@ -1,6 +1,8 @@
 package com.notimplement.happygear.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,8 +40,8 @@ public class User {
     @Column(name = "gender")
     private Boolean gender;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonBackReference
+    @JsonIgnore
     private Role role;
 }

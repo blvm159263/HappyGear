@@ -1,15 +1,13 @@
 package com.notimplement.happygear.model.mapper;
 
-import com.notimplement.happygear.entities.Role;
 import com.notimplement.happygear.entities.User;
-import com.notimplement.happygear.model.dto.RoleDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public UserDto toUserDto(User user) {
+    public static UserDto toUserDto(User user) {
         UserDto dto = new UserDto();
         dto.setUserName(user.getUserName());
         dto.setPassword(user.getPassword());
