@@ -14,13 +14,12 @@ import javax.persistence.*;
 @Table(name = "tbl_comment")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Integer commentId;
+    
     @Column(name = "content")
     private String content;
-    @Column(name = "user_name")
-    private String userName;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "tbl_product_picture")
 public class ProductPicture {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "picture_id")
     private Integer pictureId;
     
