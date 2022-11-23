@@ -4,7 +4,6 @@ import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.UserDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     List<UserDto> listAllUserDto();
@@ -21,7 +20,7 @@ public interface UserService {
 
     UserDto save(UserDto userDto);
 
-    UserDto delete(String username);
+    void delete(String username);
 
     UserDto getUserByName(String name);
 

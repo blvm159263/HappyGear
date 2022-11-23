@@ -1,5 +1,6 @@
 package com.notimplement.happygear.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,7 +20,7 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id", nullable = false, updatable = false)
+    @Column(name = "role_id")
     private Integer roleId;
 
     @Column(name = "role_name")
@@ -28,7 +29,7 @@ public class Role {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<User> users;
 }

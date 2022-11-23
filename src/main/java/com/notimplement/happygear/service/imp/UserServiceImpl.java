@@ -3,8 +3,10 @@ package com.notimplement.happygear.service.imp;
 import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.UserMapper;
+import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +20,16 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
     @Autowired
-    UserMapper userMapper;
+    private RoleRepository roleRepo;
 
     @Override
     public List<UserDto> listAllUserDto() {
-        return userRepo.findAll().stream().map(userMapper::toUserDto).collect(Collectors.toList());
+        List<User> listUser = userRepo.findAll();
+        List<UserDto> listUserDto = new ArrayList<>();
+        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
+        return listUserDto;
     }
 
     @Override
@@ -39,7 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto loginAcc(UserDto userDto) {
-        return null;
+        String username = userDto.getUserName();
+        String password = userDto.getPassword();
+        throw new NotYetImplementedException();
     }
 
     @Override
@@ -49,26 +56,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> listAllActiveUser() {
-        return userRepo.findAllUserWithActiveStatus().stream().map(userMapper::toUserDto).collect(Collectors.toList());
+        List<User> listUser = userRepo.findAllUserWithActiveStatus();
+        List<UserDto> listUserDto = new ArrayList<>();
+        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
+        return listUserDto;
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-        return null;
+        User user = toUser(userDto);
+        return UserMapper.toUserDto(userRepo.save(user));
     }
 
     @Override
-    public UserDto delete(String username) {
-        return null;
+    public void delete(String username) {
+        userRepo.deleteByUserName(username);
     }
 
     @Override
     public UserDto getUserByName(String name) {
-        return null;
+        return UserMapper.toUserDto(userRepo.findByUserName(name));
     }
 
     @Override
-    public List<UserDto> searchByFullName(String fullname) {
-        return null;
+    public List<UserDto> searchByFullName(String name) {
+        List<User> listUser = userRepo.findByFullNameContainingIgnoreCase(name);
+        List<UserDto> listUserDto = new ArrayList<>();
+        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
+        return listUserDto;
+    }
+
+    private User toUser(UserDto dto){
+        User u = new User();
+        u.setUserName(dto.getUserName());
+        u.setPassword(dto.getPassword());
+        u.setFullName(dto.getFullName());
+        u.setAddress(dto.getAddress());
+        u.setEmail(dto.getEmail());
+        u.setPhoneNumber(dto.getPhoneNumber());
+        u.setStatus(dto.getStatus());
+        u.setGender(dto.getGender());
+        u.setRole(roleRepo.findById(dto.getRoleId()).get());
+        return u;
     }
 }

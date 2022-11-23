@@ -10,9 +10,12 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User,String> {
     User findByUserName(String username);
-    void deleteUserByUserName(String username);
-    List<User> findAllByFullName(String fullname);
+    
+    void deleteByUserName(String username);
 
     @Query("SELECT u FROM User u WHERE u.status = true")
     List<User> findAllUserWithActiveStatus();
+
+    List<User> findByFullNameContainingIgnoreCase(String name);
+
 }
