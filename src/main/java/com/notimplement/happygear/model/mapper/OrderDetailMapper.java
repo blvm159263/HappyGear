@@ -11,7 +11,7 @@ public class OrderDetailMapper {
         dto.setPrice(orderDetail.getPrice());
         dto.setQuantity(orderDetail.getQuantity());
         dto.setStatus(orderDetail.getStatus());
-        dto.setProductId(orderDetail.getProduct().getProductId());
+        dto.setProductId(orderDetail.getOrderdetailProduct().getProductId());
         return dto;
     }
 }
