@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "tbl_user")
 public class User {
     @Id
-    @Column(name = "user_name", nullable = false, updatable = false)
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "full_name")
@@ -42,6 +43,14 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnore
+    @JsonBackReference
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Order> orders;
 }

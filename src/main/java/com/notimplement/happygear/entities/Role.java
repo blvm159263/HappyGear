@@ -20,7 +20,7 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private Integer roleId;
 
     @Column(name = "role_name")
@@ -30,5 +30,6 @@ public class Role {
     private Boolean status;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<User> users;
 }

@@ -1,15 +1,6 @@
 package com.notimplement.happygear.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -17,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Table(name = "tbl_product")
 @Entity
@@ -54,4 +47,12 @@ public class Product {
 	@OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private ProductDescription proDesc;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private Set<Comment> comments;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private Set<ProductPicture> productPictures;
 }

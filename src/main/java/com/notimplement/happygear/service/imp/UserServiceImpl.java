@@ -56,15 +56,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> listAllActiveUser() {
-//        return userRepo.findAllUserWithActiveStatus().stream().map(userMapper::toUserDto).collect(Collectors.toList());
-        return null;
+        List<User> listUser = userRepo.findAllUserWithActiveStatus();
+        List<UserDto> listUserDto = new ArrayList<>();
+        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
+        return listUserDto;
     }
 
     @Override
     public UserDto save(UserDto userDto) {
         User user = toUser(userDto);
-//        return userMapper.toUserDto(userRepo.save(user));
-        return null;
+        return UserMapper.toUserDto(userRepo.save(user));
     }
 
     @Override
@@ -74,14 +75,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByName(String name) {
-//        return userMapper.toUserDto(userRepo.findByUserName(name));
-        return null;
+        return UserMapper.toUserDto(userRepo.findByUserName(name));
     }
 
     @Override
     public List<UserDto> searchByFullName(String name) {
-//        return userRepo.findByFullNameContainingIgnoreCase(name).stream().map(userMapper::toUserDto).collect(Collectors.toList());
-        return null;
+        List<User> listUser = userRepo.findByFullNameContainingIgnoreCase(name);
+        List<UserDto> listUserDto = new ArrayList<>();
+        listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
+        return listUserDto;
     }
 
     private User toUser(UserDto dto){

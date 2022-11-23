@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDto {
-    private long commentId;
+    private Integer commentId;
     private String content;
     private String userName;
-    private long productId;
+    private Integer productId;
 }
