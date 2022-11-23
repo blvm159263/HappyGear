@@ -46,11 +46,11 @@ public class User {
     @JsonBackReference
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "commentUser", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Order> orders;
 }

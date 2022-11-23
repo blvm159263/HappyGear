@@ -25,10 +25,10 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonBackReference
-    private Product product;
+    private Product commentProduct;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
     @JsonBackReference
-    private User user;
+    private User commentUser;
 }

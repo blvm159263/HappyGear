@@ -16,13 +16,15 @@ public class ProductPicture {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "picture_id")
     private Integer pictureId;
+    
     @Column(name = "picture_url")
     private String pictureUrl;
+    
     @Column(name = "status")
     private boolean status;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonBackReference
-    private Product product;
+    private Product pictureProduct;
 }

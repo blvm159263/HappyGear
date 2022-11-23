@@ -37,7 +37,7 @@ public class Order {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_name")
-    private User user;
+    private User orderUser;
 
 
 

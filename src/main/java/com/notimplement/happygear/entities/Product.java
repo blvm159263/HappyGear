@@ -48,11 +48,16 @@ public class Product {
 	@JsonManagedReference
 	private ProductDescription proDesc;
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "commentProduct", fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private Set<Comment> comments;
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "pictureProduct", fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private Set<ProductPicture> productPictures;
+	
+	
+	@OneToMany(mappedBy = "orderdetailProduct", fetch = FetchType.LAZY)
+	@JsonManagedReference
+	private Set<OrderDetail> orderDetails;
 }
