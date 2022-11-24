@@ -2,14 +2,17 @@ package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.model.dto.RoleDto;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface RoleService {
     RoleDto getRoleById(Integer id);
 
-    List<RoleDto> listAllRole();
+    List<RoleDto> getAllRoleDto();
 
-    RoleDto update(RoleDto roleDto);
+    RoleDto updateRole(RoleDto roleDto, Integer id);
 
-    RoleDto add(RoleDto roleDto);
+    RoleDto createRole(RoleDto roleDto);
+
+    RoleDto removeRole(Integer id);
 }

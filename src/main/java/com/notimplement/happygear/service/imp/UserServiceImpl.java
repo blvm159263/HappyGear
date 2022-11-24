@@ -90,14 +90,14 @@ public class UserServiceImpl implements UserService {
                     user.getRole()
             );
             userRepo.save(savedUser);
-            return UserMapper.toUserDto(user);
+            return UserMapper.toUserDto(savedUser);
         }
         return null;
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
-        User user = userRepo.findByUserName(userDto.getUserName());
+    public UserDto updateUser(UserDto userDto, String username) {
+        User user = userRepo.findByUserName(username);
         if(user!=null){
             User updatedUser = toUser(userDto);
             userRepo.save(updatedUser);
