@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     List<User> findByFullNameContainingIgnoreCase(String name);
 
+    User findByUserNameAndPassword(String username, String password);
+
 }

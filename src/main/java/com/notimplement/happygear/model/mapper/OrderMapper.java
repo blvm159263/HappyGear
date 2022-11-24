@@ -17,6 +17,7 @@ public class OrderMapper {
         orderDto.setDate((Date) order.getDate());
         orderDto.setTotal(order.getTotal());
         orderDto.setStatus(order.getStatus());
+
         Set<OrderDetailDto> detailDtoSet = new HashSet<>();
         Set<OrderDetail> details = new HashSet<>();
         details.addAll(order.getOrderDetailSet());

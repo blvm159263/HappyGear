@@ -52,4 +52,17 @@ public class User {
     @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Order> orders;
+
+    public User(String userName, String fullName, String password, String address, String email, String phoneNumber,
+                Boolean status, Boolean gender, Role role) {
+        this.userName = userName;
+        this.fullName = fullName;
+        this.password = password;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
+        this.gender = gender;
+        this.role = role;
+    }
 }

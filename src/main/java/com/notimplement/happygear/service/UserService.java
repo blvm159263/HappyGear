@@ -1,28 +1,31 @@
 package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.entities.User;
+import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> listAllUserDto();
+    List<UserDto> getAllUserDto();
 
-    List<User> listAllUser();
+    List<User> getAllUser();
 
-    UserDto registerAcc(UserDto userDto);
+    AccountDto signupAcc(UserDto userDto);
 
-    UserDto loginAcc(UserDto userDto);
+    AccountDto loginAcc(UserDto userDto);
 
-    User getUserByUserName(String username);
+    List<UserDto> getAllActiveUser();
 
-    List<UserDto> listAllActiveUser();
+    UserDto saveUser(UserDto userDto);
 
-    UserDto save(UserDto userDto);
+    UserDto deleteUser(String username);
 
-    void delete(String username);
+    UserDto updateUser(UserDto userDto);
 
-    UserDto getUserByName(String name);
+    UserDto createUser(UserDto userDto);
+
+    UserDto getByUserName(String name);
 
     List<UserDto> searchByFullName(String fullname);
 

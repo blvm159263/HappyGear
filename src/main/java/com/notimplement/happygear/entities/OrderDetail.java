@@ -1,6 +1,5 @@
 package com.notimplement.happygear.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +33,4 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product orderdetailProduct;
-
-
-     
 }

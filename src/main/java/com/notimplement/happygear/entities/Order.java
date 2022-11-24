@@ -38,8 +38,4 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User orderUser;
-
-
-
-
 }

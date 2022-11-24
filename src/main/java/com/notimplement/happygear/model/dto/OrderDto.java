@@ -12,11 +12,9 @@ import java.sql.Date;
 @NoArgsConstructor
 public class OrderDto {
     private Integer orderId;
+    @NotNull(message = "UserName not null")
     private String userName;
     private Date date;
     private Double total;
     private Integer status;
-
-
-
 }

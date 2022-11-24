@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.User;
+import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.model.mapper.UserMapper;
 import com.notimplement.happygear.repositories.RoleRepository;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepo;
 
     @Override
-    public List<UserDto> listAllUserDto() {
+    public List<UserDto> getAllUserDto() {
         List<User> listUser = userRepo.findAll();
         List<UserDto> listUserDto = new ArrayList<>();
         listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
@@ -33,29 +34,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listAllUser() {
+    public List<User> getAllUser() {
         return userRepo.findAll();
     }
 
     @Override
-    public UserDto registerAcc(UserDto userDto) {
+    public AccountDto signupAcc(UserDto userDto) {
         return null;
     }
 
     @Override
-    public UserDto loginAcc(UserDto userDto) {
+    public AccountDto loginAcc(UserDto userDto) {
         String username = userDto.getUserName();
         String password = userDto.getPassword();
-        throw new NotYetImplementedException();
+        User user = userRepo.findByUserNameAndPassword(username,password);
+        if(user!=null){
+            AccountDto acc = new AccountDto(username,password);
+            return acc;
+        }
+        return null;
     }
 
     @Override
-    public User getUserByUserName(String username) {
-        return userRepo.findByUserName(username);
+    public UserDto getByUserName(String username) {
+        return UserMapper.toUserDto(userRepo.findByUserName(username));
     }
 
     @Override
-    public List<UserDto> listAllActiveUser() {
+    public List<UserDto> getAllActiveUser() {
         List<User> listUser = userRepo.findAllUserWithActiveStatus();
         List<UserDto> listUserDto = new ArrayList<>();
         listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
@@ -63,19 +69,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) {
+    public UserDto saveUser(UserDto userDto) {
         User user = toUser(userDto);
         return UserMapper.toUserDto(userRepo.save(user));
     }
 
     @Override
-    public void delete(String username) {
-        userRepo.deleteByUserName(username);
+    public UserDto deleteUser(String username) {
+        User user = userRepo.findByUserName(username);
+        if(user!=null){
+            User savedUser = new User(
+                    user.getUserName(),
+                    user.getFullName(),
+                    user.getPassword(),
+                    user.getAddress(),
+                    user.getEmail(),
+                    user.getPhoneNumber(),
+                    false,
+                    user.getGender(),
+                    user.getRole()
+            );
+            userRepo.save(savedUser);
+            return UserMapper.toUserDto(user);
+        }
+        return null;
     }
 
     @Override
-    public UserDto getUserByName(String name) {
-        return UserMapper.toUserDto(userRepo.findByUserName(name));
+    public UserDto updateUser(UserDto userDto) {
+        User user = userRepo.findByUserName(userDto.getUserName());
+        if(user!=null){
+            User updatedUser = toUser(userDto);
+            userRepo.save(updatedUser);
+            return UserMapper.toUserDto(updatedUser);
+        }
+        return null;
+    }
+
+    @Override
+    public UserDto createUser(UserDto userDto) {
+        User user = toUser(userDto);
+        if(user!=null){
+            userRepo.save(user);
+            return UserMapper.toUserDto(user);
+        }
+        return null;
     }
 
     @Override
@@ -87,16 +125,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private User toUser(UserDto dto){
-        User u = new User();
-        u.setUserName(dto.getUserName());
-        u.setPassword(dto.getPassword());
-        u.setFullName(dto.getFullName());
-        u.setAddress(dto.getAddress());
-        u.setEmail(dto.getEmail());
-        u.setPhoneNumber(dto.getPhoneNumber());
-        u.setStatus(dto.getStatus());
-        u.setGender(dto.getGender());
-        u.setRole(roleRepo.findById(dto.getRoleId()).get());
-        return u;
+        if(dto!=null){
+            User u = new User();
+            u.setUserName(dto.getUserName());
+            u.setPassword(dto.getPassword());
+            u.setFullName(dto.getFullName());
+            u.setAddress(dto.getAddress());
+            u.setEmail(dto.getEmail());
+            u.setPhoneNumber(dto.getPhoneNumber());
+            u.setStatus(dto.getStatus());
+            u.setGender(dto.getGender());
+            u.setRole(roleRepo.findById(dto.getRoleId()).orElse(null));
+            return u;
+        }
+        return null;
     }
 }

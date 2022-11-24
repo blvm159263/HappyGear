@@ -98,6 +98,4 @@ public class ProductDescription {
 	@OneToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
-	
 }
