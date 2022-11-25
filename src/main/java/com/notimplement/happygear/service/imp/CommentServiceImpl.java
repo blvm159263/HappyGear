@@ -48,8 +48,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto updateComment(CommentDto commentDto, Integer id) {
         CommentDto updateComment = getCommentById(id);
+        System.out.println(commentDto.getCommentId());
         if(updateComment!=null){
-            updateComment.setCommentId(id);
+            updateComment.setCommentId(commentDto.getCommentId());
             updateComment.setContent(commentDto.getContent());
             updateComment.setUserName(commentDto.getUserName());
             updateComment.setProductId(commentDto.getProductId());
@@ -63,17 +64,17 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto deleteComment(Integer id) {
         CommentDto updateComment = getCommentById(id);
         if(updateComment!=null){
-            commentRepository.save(toComment(updateComment));
+            commentRepository.deleteByCommentId(id);
             return updateComment;
         }
         return null;
     }
 
-//    @Override
-//    public List<CommentDto> getAllCommentByUserName(String username) {
-//        return commentRepository.findAllByCommentUser(username)
-//                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-//    }
+    @Override
+    public List<CommentDto> getAllCommentByUserName(String username) {
+        return commentRepository.findAllByUserName(username)
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+    }
 
     private Comment toComment(CommentDto commentDto){
         if(commentDto!=null){
