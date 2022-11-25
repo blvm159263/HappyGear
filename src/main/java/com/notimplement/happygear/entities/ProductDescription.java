@@ -32,7 +32,7 @@ public class ProductDescription {
 	private String keycap;
 	
 	@Column(name = "switch")
-	private String _switch;
+	private String switchKeyBoard;
 	
 	@Column(name = "type_keyboard")
 	private String typeKeyboard;

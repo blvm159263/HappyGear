@@ -8,8 +8,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductPictureDto {
+	
     private Integer pictureId;
+    
     private String pictureUrl;
+    
+    private Boolean status;
+    
     private Integer productId;
-    private boolean status;
+    
 }

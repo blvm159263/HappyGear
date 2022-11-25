@@ -22,7 +22,7 @@ public class ProductPicture {
     private String pictureUrl;
     
     @Column(name = "status")
-    private boolean status;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

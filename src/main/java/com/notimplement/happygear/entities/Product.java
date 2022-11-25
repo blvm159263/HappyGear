@@ -28,6 +28,9 @@ public class Product {
 	@Column(name = "price")
 	private Double price;
 	
+	@Column(name ="quantity")
+	private Integer quantity;
+	
 	@Column(name = "insurance_info")
 	private String insuranceInfo;
 	

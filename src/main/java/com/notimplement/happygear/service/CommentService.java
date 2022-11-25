@@ -17,6 +17,6 @@ public interface CommentService {
 
     CommentDto deleteComment(Integer id);
 
-    List<CommentDto> getAllCommentByUserName(String username);
+    //List<CommentDto> getAllCommentByUserName(String username);
 
 }
