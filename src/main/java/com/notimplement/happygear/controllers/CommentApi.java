@@ -3,9 +3,11 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.CommentDto;
 import com.notimplement.happygear.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,7 +42,8 @@ public class CommentApi {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto, @PathVariable Integer id){
+    public ResponseEntity<?> updateComment(@Valid @RequestBody CommentDto commentDto, @PathVariable Integer id){
+        commentDto.setCommentId(id);
         CommentDto updateComment = commentService.updateComment(commentDto,id);
         return ResponseEntity.ok(updateComment);
     }
