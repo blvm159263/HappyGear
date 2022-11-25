@@ -7,27 +7,25 @@ import com.notimplement.happygear.model.mapper.UserMapper;
 import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepo;
+    private RoleRepository roleRepository;
 
     @Override
     public List<UserDto> getAllUserDto() {
-        List<User> listUser = userRepo.findAll();
+        List<User> listUser = userRepository.findAll();
         List<UserDto> listUserDto = new ArrayList<>();
         listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
         return listUserDto;
@@ -35,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser() {
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
     @Override
@@ -47,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public AccountDto loginAcc(UserDto userDto) {
         String username = userDto.getUserName();
         String password = userDto.getPassword();
-        User user = userRepo.findByUserNameAndPassword(username,password);
+        User user = userRepository.findByUserNameAndPassword(username,password);
         if(user!=null){
             AccountDto acc = new AccountDto(username,password);
             return acc;
@@ -57,12 +55,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByUserName(String username) {
-        return UserMapper.toUserDto(userRepo.findByUserName(username));
+        return UserMapper.toUserDto(userRepository.findByUserName(username));
     }
 
     @Override
     public List<UserDto> getAllActiveUser() {
-        List<User> listUser = userRepo.findAllUserWithActiveStatus();
+        List<User> listUser = userRepository.findAllUserWithActiveStatus();
         List<UserDto> listUserDto = new ArrayList<>();
         listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
         return listUserDto;
@@ -71,12 +69,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = toUser(userDto);
-        return UserMapper.toUserDto(userRepo.save(user));
+        return UserMapper.toUserDto(userRepository.save(user));
     }
 
     @Override
     public UserDto deleteUser(String username) {
-        User user = userRepo.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         if(user!=null){
             User savedUser = new User(
                     user.getUserName(),
@@ -89,7 +87,7 @@ public class UserServiceImpl implements UserService {
                     user.getGender(),
                     user.getRole()
             );
-            userRepo.save(savedUser);
+            userRepository.save(savedUser);
             return UserMapper.toUserDto(savedUser);
         }
         return null;
@@ -97,10 +95,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, String username) {
-        User user = userRepo.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         if(user!=null){
             User updatedUser = toUser(userDto);
-            userRepo.save(updatedUser);
+            userRepository.save(updatedUser);
             return UserMapper.toUserDto(updatedUser);
         }
         return null;
@@ -110,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         User user = toUser(userDto);
         if(user!=null){
-            userRepo.save(user);
+            userRepository.save(user);
             return UserMapper.toUserDto(user);
         }
         return null;
@@ -118,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> searchByFullName(String name) {
-        List<User> listUser = userRepo.findByFullNameContainingIgnoreCase(name);
+        List<User> listUser = userRepository.findByFullNameContainingIgnoreCase(name);
         List<UserDto> listUserDto = new ArrayList<>();
         listUser.forEach(u -> listUserDto.add(UserMapper.toUserDto(u)));
         return listUserDto;
@@ -135,7 +133,7 @@ public class UserServiceImpl implements UserService {
             u.setPhoneNumber(dto.getPhoneNumber());
             u.setStatus(dto.getStatus());
             u.setGender(dto.getGender());
-            u.setRole(roleRepo.findById(dto.getRoleId()).orElse(null));
+            u.setRole(roleRepository.findById(dto.getRoleId()).orElse(null));
             return u;
         }
         return null;

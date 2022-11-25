@@ -16,11 +16,11 @@ import java.util.Optional;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private RoleRepository roleRepo;
+    private RoleRepository roleRepository;
 
     @Override
     public RoleDto getRoleById(Integer id) {
-        Role role = roleRepo.findByRoleId(id);
+        Role role = roleRepository.findByRoleId(id);
         if(role!=null){
             return RoleMapper.toRoleDTO(role);
         }
@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> getAllRoleDto() {
-        List<Role> listRole = roleRepo.findAll();
+        List<Role> listRole = roleRepository.findAll();
         List<RoleDto> listRoleDto = new ArrayList<>();
         listRole.forEach(r -> listRoleDto.add(RoleMapper.toRoleDTO(r)));
         return listRoleDto;
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto updateRole(RoleDto roleDto, Integer id) {
-        Role role = roleRepo.findByRoleId(id);
+        Role role = roleRepository.findByRoleId(id);
         if(role!=null){
             RoleDto roledto = new RoleDto();
             roledto.setRoleId(roleDto.getRoleId());
@@ -51,13 +51,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto createRole(RoleDto roleDto) {
         Role role = toRole(roleDto);
-        roleRepo.save(role);
+        roleRepository.save(role);
         return RoleMapper.toRoleDTO(role);
     }
 
     @Override
     public RoleDto removeRole(Integer id) {
-        Optional<Role> role = roleRepo.findById(id);
+        Optional<Role> role = roleRepository.findById(id);
         if(role.isPresent()){
             RoleDto roledto = new RoleDto();
             roledto.setRoleId(role.get().getRoleId());
