@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -93,9 +93,11 @@ public class ProductDescription {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
+	@JsonManagedReference
 	private Category desCategory;
 	
 	@OneToOne
 	@JoinColumn(name = "product_id")
+	@JsonManagedReference
 	private Product product;
 }

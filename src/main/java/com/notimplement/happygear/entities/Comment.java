@@ -1,6 +1,7 @@
 package com.notimplement.happygear.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,11 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonManagedReference
     private Product commentProduct;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
+    @JsonManagedReference
     private User commentUser;
 }

@@ -1,7 +1,6 @@
 package com.notimplement.happygear.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,10 +31,11 @@ public class Order {
     private Integer status;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Set<OrderDetail> orderDetailSet;
 
     @ManyToOne
     @JoinColumn(name = "user_name")
+    @JsonManagedReference
     private User orderUser;
 }

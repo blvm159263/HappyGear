@@ -1,7 +1,6 @@
 package com.notimplement.happygear.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,14 +42,15 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @JsonManagedReference
     private Role role;
 
     @OneToMany(mappedBy = "commentUser", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "orderUser", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Set<Order> orders;
 
     public User(String userName, String fullName, String password, String address, String email, String phoneNumber,

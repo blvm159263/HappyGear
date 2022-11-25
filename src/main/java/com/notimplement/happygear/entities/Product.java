@@ -3,7 +3,6 @@ package com.notimplement.happygear.entities;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -37,25 +36,28 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
+	@JsonManagedReference
 	private Brand brand;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
+	@JsonManagedReference
 	private Category proCategory;
 	
 	@OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
+	@JsonBackReference
 	private ProductDescription proDesc;
 
 	@OneToMany(mappedBy = "commentProduct", fetch = FetchType.LAZY)
-	@JsonIgnore
+	@JsonBackReference
 	private Set<Comment> comments;
 
 	@OneToMany(mappedBy = "pictureProduct", fetch = FetchType.LAZY)
-	@JsonIgnore
+	@JsonBackReference
 	private Set<ProductPicture> productPictures;
 	
 	
 	@OneToMany(mappedBy = "orderdetailProduct", fetch = FetchType.LAZY)
-	@JsonIgnore
+	@JsonBackReference
 	private Set<OrderDetail> orderDetails;
 }

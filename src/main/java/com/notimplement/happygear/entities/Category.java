@@ -15,8 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @AllArgsConstructor
@@ -36,10 +35,10 @@ public class Category {
     private Boolean status;
     
     @OneToMany(mappedBy = "proCategory", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Set<Product> products;
     
     @OneToMany(mappedBy = "desCategory", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Set<ProductDescription> proDescs;
 }
