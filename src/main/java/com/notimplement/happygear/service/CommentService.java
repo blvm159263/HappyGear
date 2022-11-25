@@ -1,6 +1,5 @@
 package com.notimplement.happygear.service;
 
-import com.notimplement.happygear.entities.Comment;
 import com.notimplement.happygear.model.dto.CommentDto;
 
 import java.util.List;
