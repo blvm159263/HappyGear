@@ -70,11 +70,11 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
-    @Override
-    public List<CommentDto> getAllCommentByUserName(String username) {
-        return commentRepository.findAllByUserName(username)
-                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<CommentDto> getAllCommentByUserName(String username) {
+//        return commentRepository.findAllByUserName(username)
+//                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+//    }
 
     private Comment toComment(CommentDto commentDto){
         if(commentDto!=null){

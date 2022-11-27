@@ -31,8 +31,9 @@ public class CommentApi {
 
     @GetMapping("/user-comment/{username}")
     public ResponseEntity<?> getAllCommentOfUserName(@PathVariable(name = "username") String username){
-        List<CommentDto> listComment = commentService.getAllCommentByUserName(username);
-        return ResponseEntity.ok(listComment);
+//        List<CommentDto> listComment = commentService.getAllCommentByUserName(username);
+//        return ResponseEntity.ok(listComment);
+        return null;
     }
 
     @PostMapping("/create")
