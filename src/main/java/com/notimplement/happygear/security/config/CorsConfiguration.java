@@ -13,16 +13,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class CorsConfiguration {
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer(){
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("GET","PUT","POST","DELETE").allowedOrigins("http://localhost:8080");
-            }
-        };
-    }
-	
-
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer(){
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**").allowedMethods("GET","PUT","POST","DELETE").allowedOrigins("http://localhost:8080");
+//            }
+//        };
+//    }
 
 }
