@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.entities.OrderDetail;
+import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface OrderDetailService {
     OrderDetailDto update(OrderDetailDto orderDetailDto);
 
     OrderDetailDto delete(Integer id);
+
+//    Boolean createListOrderDetail()
 }

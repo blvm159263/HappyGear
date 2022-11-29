@@ -16,7 +16,7 @@ public interface OrderService {
 
     OrderDto update(OrderDto order);
 
-    OrderDto create(Order order);
+    OrderDto create(OrderDto order);
 
     OrderDto delete(Integer id);
 }

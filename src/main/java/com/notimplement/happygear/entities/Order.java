@@ -7,7 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "tbl_order")
@@ -32,7 +33,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<OrderDetail> orderDetailSet;
+    private List<OrderDetail> orderDetailSet;
 
     @ManyToOne
     @JoinColumn(name = "user_name")

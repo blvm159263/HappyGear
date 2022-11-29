@@ -57,8 +57,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto create(Order order) {
-        if(order!=null) {
+    public OrderDto create(OrderDto orderDto) {
+        if(orderDto!=null) {
+            Order order = toOrder(orderDto);
             orderRepository.save(order);
             return OrderMapper.toOrderDto(order);
         }
@@ -76,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setOrderId(orderDto.getOrderId());
         order.setDate(orderDto.getDate());
-        order.setTotal(order.getTotal());
+        order.setTotal(orderDto.getTotal());
         order.setStatus(orderDto.getStatus());
         order.setOrderUser(userRepository.findByUserName(orderDto.getUserName()));
         return order;
