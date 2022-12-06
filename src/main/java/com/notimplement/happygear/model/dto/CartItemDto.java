@@ -4,9 +4,3 @@ public class CartItemDto {
     private Integer productId;
     private Integer quantity;
 }
-/*
-const cart = {
-
-}
-
- */

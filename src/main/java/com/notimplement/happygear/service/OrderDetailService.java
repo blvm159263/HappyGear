@@ -23,5 +23,5 @@ public interface OrderDetailService {
 
     OrderDetailDto delete(Integer id);
 
-//    Boolean createListOrderDetail()
+    Double getCartAmount(List<OrderDetailDto> list);
 }

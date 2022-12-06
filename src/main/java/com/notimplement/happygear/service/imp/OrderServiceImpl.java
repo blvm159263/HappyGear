@@ -1,6 +1,7 @@
 package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Order;
+import com.notimplement.happygear.model.dto.OrderDetailDto;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.enums.OrderStatus;
 import com.notimplement.happygear.model.mapper.OrderMapper;

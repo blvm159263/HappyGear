@@ -41,4 +41,8 @@ public class UserDto {
 
     @NotNull
     private Integer roleId;
+
+    public UserDto(String username) {
+        this.userName = username;
+    }
 }

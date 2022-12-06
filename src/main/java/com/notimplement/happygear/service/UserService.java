@@ -11,9 +11,9 @@ public interface UserService {
 
     List<User> getAllUser();
 
-    AccountDto signupAcc(UserDto userDto);
+    UserDto signupAcc(AccountDto accountDto);
 
-    AccountDto loginAcc(UserDto userDto);
+    UserDto loginAcc(AccountDto accountDto);
 
     List<UserDto> getAllActiveUser();
 

@@ -1,12 +1,14 @@
 package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.OrderDetail;
+import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 import com.notimplement.happygear.model.mapper.OrderDetailMapper;
 import com.notimplement.happygear.repositories.OrderDetailRepository;
 import com.notimplement.happygear.repositories.OrderRepository;
 import com.notimplement.happygear.repositories.ProductRepository;
 import com.notimplement.happygear.service.OrderDetailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Slf4j
 public class OrderDetailServiceImpl implements OrderDetailService {
     @Autowired
     OrderDetailRepository orderDetailRepository;
@@ -78,6 +81,35 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         OrderDetail od = orderDetailRepository.findByDetailId(id);
         od.setStatus(false);
         return OrderDetailMapper.toOrderDetailDto(orderDetailRepository.save(od));
+    }
+
+    @Override
+    public Double getCartAmount(List<OrderDetailDto> list) {
+        Double totalCartAmount = 0d;
+        Double singleCartAmount = 0d;
+        int availableQuantity = 0;
+        for(var o : list){
+            int productId = o.getProductId();
+            Product product = productRepository.findByProductId(productId);
+            if(product!=null){
+                if(product.getQuantity() < o.getQuantity()){
+                    singleCartAmount = product.getPrice() * product.getQuantity();
+                    o.setQuantity(product.getQuantity());
+                    log.info("Dont have enough quantity of product");
+                }
+                else{
+                    singleCartAmount = o.getQuantity() * product.getPrice();
+                    availableQuantity = product.getQuantity() - o.getQuantity();
+                }
+                totalCartAmount += singleCartAmount;
+                product.setQuantity(availableQuantity);
+                availableQuantity = 0;
+                o.setProductId(productId);
+                o.setPrice(singleCartAmount);
+                productRepository.save(product);
+            }
+        }
+        return totalCartAmount;
     }
 
     private OrderDetail toOrderDetail(OrderDetailDto orderDetailDto) {

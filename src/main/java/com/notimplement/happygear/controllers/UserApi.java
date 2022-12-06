@@ -1,5 +1,6 @@
 package com.notimplement.happygear.controllers;
 
+import com.notimplement.happygear.model.dto.AccountDto;
 import com.notimplement.happygear.model.dto.UserDto;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,14 @@ public class UserApi {
     public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @PathVariable(name = "username") String username){
         UserDto updateUserDto = userService.updateUser(userDto, username);
         return ResponseEntity.ok(updateUserDto);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AccountDto accountDto){
+        UserDto userDto = userService.loginAcc(accountDto);
+        if(userDto!=null){
+            return ResponseEntity.ok(userDto);
+        }
+        return null;
     }
 }
