@@ -33,6 +33,9 @@ public class Product {
 	
 	@Column(name = "insurance_info")
 	private String insuranceInfo;
+
+	@Column(name = "picture")
+	private String picture;
 	
 	@Column(name = "status")
 	private Boolean status;

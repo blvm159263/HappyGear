@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.notimplement.happygear.model.dto.ProductPictureDto;
 import com.notimplement.happygear.service.ProductPictureService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/pictures")
 public class ProductPictureApi {
@@ -46,5 +48,11 @@ public class ProductPictureApi {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteProductPicture(@PathVariable(name ="id") Integer id){
 		return ResponseEntity.ok(service.delete(id));
+	}
+
+	@GetMapping("/productPic/{productId}")
+	public ResponseEntity<?> getProductPictureByProductId(@PathVariable(name = "productId") Integer id){
+		List<ProductPictureDto> list = service.listByProductIdAndStatus(id,true);
+		return ResponseEntity.ok(list);
 	}
 }

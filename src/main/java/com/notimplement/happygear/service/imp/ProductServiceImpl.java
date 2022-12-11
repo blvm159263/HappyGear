@@ -2,8 +2,11 @@ package com.notimplement.happygear.service.imp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +38,12 @@ public class ProductServiceImpl implements ProductService{
 		List<ProductDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductMapper.toProductDto(v)));
 		return listDto;
+	}
+
+	@Override
+	public List<ProductDto> listByPage(Pageable pageable){
+		List<Product> list = repo.findAll(pageable).toList();
+		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
 	}
 
 	@Override
