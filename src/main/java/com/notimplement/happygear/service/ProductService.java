@@ -1,16 +1,18 @@
 package com.notimplement.happygear.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.ProductDto;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 
 public interface ProductService {
 	
 	List<ProductDto> listAll();
 
-	List<ProductDto> listByPage(Pageable pageable);
+	Map<List<ProductDto>, Integer> listByPage(Pageable pageable);
 
 	ProductDto getById(Integer id);
 

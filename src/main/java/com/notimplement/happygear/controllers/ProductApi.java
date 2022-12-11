@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -29,8 +31,13 @@ public class ProductApi {
 	@GetMapping("/page")
 	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
-		List<ProductDto> page = service.listByPage(pageable);
-		return ResponseEntity.ok(page);
+		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
 	}
 	
 	@GetMapping("/{id}")
