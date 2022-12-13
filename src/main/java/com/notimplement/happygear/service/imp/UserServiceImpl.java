@@ -37,8 +37,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto signupAcc(AccountDto accountDto) {
-        return null;
+    public UserDto signupAcc(UserDto userDto) {
+        String fullName = userDto.getFullName();
+        String userName = userDto.getUserName();
+        String address = userDto.getAddress();
+        String password = userDto.getPassword();
+        String email = userDto.getEmail();
+        String phoneNumber = userDto.getPhoneNumber();
+        Boolean gender = userDto.getGender();
+        Boolean status = Boolean.TRUE;
+        Integer roleId = 2;
+
+        UserDto u = getByUserName(userName);
+        if(u!=null){
+            return null;
+        }
+        UserDto newUser = new UserDto(userName,fullName,address,password,email,phoneNumber,status,gender,roleId);
+        return createUser(newUser);
     }
 
     @Override

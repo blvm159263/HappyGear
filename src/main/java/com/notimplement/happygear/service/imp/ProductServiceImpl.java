@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> listAllProductWithMinQuantity(){
-		List<Product> list = repo.findTop5OrderByQuantityAsc();
+		List<Product> list = repo.findTop5AndOrderByQuantityAsc();
 		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
 	}
 

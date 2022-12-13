@@ -17,7 +17,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
                                            Double fromPrice, Double toPrice, Pageable pageable);
 
     @Query(value = "SELECT p.* FROM tbl_product p ORDER BY p.quantity ASC LIMIT 4", nativeQuery = true)
-    List<Product> findTop5OrderByQuantityAsc();
+    List<Product> findTop5AndOrderByQuantityAsc();
+
+//    List<Product> findTop4ByQuantityOrOrderByQuantityAsc(Integer quantity);
 
     @Query(value = "SELECT p.* FROM tbl_product p ORDER BY p.product_id DESC LIMIT 4",nativeQuery = true)
     List<Product> findLatestProduct();

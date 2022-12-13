@@ -15,5 +15,4 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("SELECT c FROM Comment c where c.commentUser.userName = ?1")
     List<Comment> findAllByUserName(String username);
 
-    void deleteByCommentId(Integer id);
 }

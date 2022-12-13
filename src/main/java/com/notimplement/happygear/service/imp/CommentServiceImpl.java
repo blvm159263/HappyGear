@@ -50,14 +50,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto updateComment(CommentDto commentDto, Integer id) {
-        CommentDto updateComment = getCommentById(id);
+        Comment updateComment = commentRepository.findByCommentId(id);
         if(updateComment!=null){
-            updateComment.setCommentId(commentDto.getCommentId());
             updateComment.setContent(commentDto.getContent());
-            updateComment.setUserName(commentDto.getUserName());
-            updateComment.setProductId(commentDto.getProductId());
-            commentRepository.save(toComment(updateComment));
-            return updateComment;
+            commentRepository.save(updateComment);
+            return CommentMapper.toCommentDto(updateComment);
         }
         return null;
     }
@@ -65,9 +62,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto deleteComment(Integer id) {
         CommentDto deleteComment = getCommentById(id);
-
         if(deleteComment!=null){
-            commentRepository.deleteByCommentId(id);
+            commentRepository.deleteById(id);
             return deleteComment;
         }
         return null;
@@ -78,7 +74,6 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAllByUserName(username)
                 .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
     }
-
 
     private Comment toComment(CommentDto commentDto){
         if(commentDto!=null){
