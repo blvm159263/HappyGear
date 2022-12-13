@@ -51,11 +51,24 @@ public class ProductServiceImpl implements ProductService{
 		return pair;
 	}
 
+	@Override
 	public Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable){
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = repo.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
 		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
+	}
+
+	@Override
+	public List<ProductDto> listAllProductWithMinQuantity(){
+		List<Product> list = repo.findTop5OrderByQuantityAsc();
+		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductDto> listAllLatestProduct(){
+		List<Product> list = repo.findLatestProduct();
+		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
 	}
 
 	@Override

@@ -27,17 +27,17 @@ public class ProductApi {
 		return ResponseEntity.ok(service.listAll());
 	}
 
-//	@GetMapping("/page")
-//	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
-//		Pageable pageable = PageRequest.of(p.orElse(0),9);
-//		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
-//		List<Object> list = new ArrayList<>();
-//		listIntegerMap.forEach((productDtos, integer) -> {
-//			list.add(productDtos);
-//			list.add(integer);
-//		});
-//		return ResponseEntity.ok(list);
-//	}
+	@GetMapping("/")
+	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
+		Pageable pageable = PageRequest.of(p.orElse(0),9);
+		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
+	}
 
 	@GetMapping("/page")
 	public ResponseEntity<?> listProductByPageAndCatgoryAndBrand(@RequestParam("p") Optional<Integer> p,
@@ -56,7 +56,19 @@ public class ProductApi {
 		});
 		return ResponseEntity.ok(list);
 	}
-	
+
+	@GetMapping("/best-seller")
+	public ResponseEntity<?> listTop5ProductByQuanity(){
+		List<ProductDto> list = service.listAllProductWithMinQuantity();
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/latest")
+	public ResponseEntity<?> listLatestProduct(){
+		List<ProductDto> list = service.listAllLatestProduct();
+		return ResponseEntity.ok(list);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProductById(@PathVariable(name ="id") Integer id){
 		return ResponseEntity.ok(service.getById(id));
