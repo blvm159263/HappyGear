@@ -47,7 +47,14 @@ public class ProductServiceImpl implements ProductService{
 	public Map<List<ProductDto>, Integer> listByPage(Pageable pageable){
 		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
 		Page<Product> pageList = repo.findAll(pageable);
-		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()),pageList.getTotalPages());
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
+		return pair;
+	}
+
+	public Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable){
+		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
+		Page<Product> pageList = repo.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
 	}
 

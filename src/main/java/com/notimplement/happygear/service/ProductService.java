@@ -14,6 +14,8 @@ public interface ProductService {
 
 	Map<List<ProductDto>, Integer> listByPage(Pageable pageable);
 
+	Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable);
+
 	ProductDto getById(Integer id);
 
 	ProductDto create(ProductDto pic);

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,28 @@ public class ProductApi {
 		return ResponseEntity.ok(service.listAll());
 	}
 
+//	@GetMapping("/page")
+//	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
+//		Pageable pageable = PageRequest.of(p.orElse(0),9);
+//		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+//		List<Object> list = new ArrayList<>();
+//		listIntegerMap.forEach((productDtos, integer) -> {
+//			list.add(productDtos);
+//			list.add(integer);
+//		});
+//		return ResponseEntity.ok(list);
+//	}
+
 	@GetMapping("/page")
-	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
+	public ResponseEntity<?> listProductByPageAndCatgoryAndBrand(@RequestParam("p") Optional<Integer> p,
+																 @RequestParam("b") Optional<Integer> brandId,
+																 @RequestParam("c") Optional<Integer> categoryId,
+																 @RequestParam("f") Optional<Double> fromPrice,
+																 @RequestParam("t") Optional<Double> toPrice){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
-		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		Map<List<ProductDto>, Integer> listIntegerMap =
+				service.listByPageCategoryAndBrand(brandId.orElse(1),
+						categoryId.orElse(1), fromPrice.orElse(0d), toPrice.orElse(40000000d), pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
 			list.add(productDtos);

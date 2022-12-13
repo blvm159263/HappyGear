@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestOrderDto {
-    private List<OrderDetailDto> cartItems;
+    private List<CartItemDto> cartItems;
     private String userName;
 }

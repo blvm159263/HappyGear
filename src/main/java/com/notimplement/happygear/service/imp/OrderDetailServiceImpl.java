@@ -2,6 +2,7 @@ package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.Product;
+import com.notimplement.happygear.model.dto.CartItemDto;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 import com.notimplement.happygear.model.mapper.OrderDetailMapper;
 import com.notimplement.happygear.repositories.OrderDetailRepository;
@@ -84,7 +85,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public Double getCartAmount(List<OrderDetailDto> list) {
+    public Double getCartAmount(List<CartItemDto> list) {
         Double totalCartAmount = 0d;
         Double singleCartAmount = 0d;
         int availableQuantity = 0;
@@ -93,9 +94,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
             Product product = productRepository.findByProductId(productId);
             if(product!=null){
                 if(product.getQuantity() < o.getQuantity()){
-                    singleCartAmount = product.getPrice() * product.getQuantity();
-                    o.setQuantity(product.getQuantity());
                     log.info("Dont have enough quantity of product");
+                    return 0d;
                 }
                 else{
                     singleCartAmount = o.getQuantity() * product.getPrice();
@@ -103,9 +103,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 }
                 totalCartAmount += singleCartAmount;
                 product.setQuantity(availableQuantity);
-                availableQuantity = 0;
-                o.setProductId(productId);
-                o.setPrice(singleCartAmount);
                 productRepository.save(product);
             }
         }
@@ -116,7 +113,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setDetailId(orderDetailDto.getDetailId());
         orderDetail.setPrice(orderDetailDto.getPrice());
-        orderDetail.setQuantity(orderDetail.getQuantity());
+        orderDetail.setQuantity(orderDetailDto.getQuantity());
         orderDetail.setStatus(orderDetailDto.getStatus());
         orderDetail.setOrder(orderRepository.findByOrderId(orderDetailDto.getOrderId()));
         orderDetail.setOrderdetailProduct(productRepository.findByProductId(orderDetailDto.getProductId()));

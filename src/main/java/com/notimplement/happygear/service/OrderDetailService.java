@@ -2,6 +2,7 @@ package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.entities.OrderDetail;
 import com.notimplement.happygear.entities.Product;
+import com.notimplement.happygear.model.dto.CartItemDto;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface OrderDetailService {
 
     OrderDetailDto delete(Integer id);
 
-    Double getCartAmount(List<OrderDetailDto> list);
+    Double getCartAmount(List<CartItemDto> list);
 }

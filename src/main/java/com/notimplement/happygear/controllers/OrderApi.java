@@ -1,20 +1,24 @@
 package com.notimplement.happygear.controllers;
 
 import com.notimplement.happygear.entities.User;
-import com.notimplement.happygear.model.dto.OrderDto;
-import com.notimplement.happygear.model.dto.RequestOrderDto;
-import com.notimplement.happygear.model.dto.UserDto;
+import com.notimplement.happygear.model.dto.*;
 import com.notimplement.happygear.service.OrderDetailService;
 import com.notimplement.happygear.service.OrderService;
 import com.notimplement.happygear.service.UserService;
 import com.notimplement.happygear.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -47,24 +51,39 @@ public class OrderApi {
     public ResponseEntity<?> createOrder(@RequestBody RequestOrderDto order){
         log.info("Request " + order.toString());
         OrderDto orderDto = new OrderDto();
+        List<CartItemDto> list = order.getCartItems();
 
-        Double amount = orderDetailService.getCartAmount(order.getCartItems());
         UserDto userDto = userService.getByUserName(order.getUserName());
+        Double total = orderDetailService.getCartAmount(order.getCartItems());
 
+        if(total == 0d){
+            return ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE)
+                    .body("The quantity is not enough");
+        }
         if(userDto!=null){
             orderDto.setUserName(userDto.getUserName());
+            orderDto.setDate(Date.valueOf(java.time.LocalDate.now()));
+            orderDto.setTotal(total);
+            orderDto.setStatus(1);
+            OrderDto newOrderDto = orderService.create(orderDto);
+
+            list.forEach(item -> {
+                log.info("Item: "+item);
+                OrderDetailDto orderDetailDto = new OrderDetailDto();
+                orderDetailDto.setOrderId(newOrderDto.getOrderId());
+                orderDetailDto.setPrice(item.getPrice());
+                orderDetailDto.setQuantity(item.getQuantity());
+                orderDetailDto.setStatus(true);
+                orderDetailDto.setProductId(item.getProductId());
+                orderDetailService.create(orderDetailDto);
+            });
             log.info("User with username: " + userDto.getUserName());
         }
         else{
             log.info("User is not exist");
         }
-        orderDto.setDate(Date.valueOf("2022-12-05"));
-        orderDto.setUserName(userDto.getUserName());
-        orderDto.setTotal(amount);
-        orderDto.setStatus(1);
-        orderService.create(orderDto);
         log.info("order push........");
-        return ResponseEntity.ok(orderService.create(orderDto));
+        return ResponseEntity.ok("success");
     }
 
     @DeleteMapping("/delete/{id}")
