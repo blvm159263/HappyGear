@@ -1,12 +1,11 @@
 package com.notimplement.happygear.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Table(name = "tbl_order_detail")
 @Data

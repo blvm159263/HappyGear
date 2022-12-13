@@ -1,6 +1,5 @@
 package com.notimplement.happygear.controllers;
 
-import com.notimplement.happygear.entities.Role;
 import com.notimplement.happygear.model.dto.RoleDto;
 import com.notimplement.happygear.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

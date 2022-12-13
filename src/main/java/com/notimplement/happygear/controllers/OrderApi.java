@@ -1,23 +1,17 @@
 package com.notimplement.happygear.controllers;
 
-import com.notimplement.happygear.entities.User;
 import com.notimplement.happygear.model.dto.*;
 import com.notimplement.happygear.service.OrderDetailService;
 import com.notimplement.happygear.service.OrderService;
 import com.notimplement.happygear.service.UserService;
-import com.notimplement.happygear.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -48,7 +42,7 @@ public class OrderApi {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOrder(@RequestBody RequestOrderDto order){
+    public ResponseEntity<?> createOrder(@Valid @RequestBody RequestOrderDto order){
         log.info("Request " + order.toString());
         OrderDto orderDto = new OrderDto();
         List<CartItemDto> list = order.getCartItems();

@@ -1,7 +1,6 @@
 package com.notimplement.happygear.service.imp;
 
 import com.notimplement.happygear.entities.Order;
-import com.notimplement.happygear.model.dto.OrderDetailDto;
 import com.notimplement.happygear.model.dto.OrderDto;
 import com.notimplement.happygear.model.enums.OrderStatus;
 import com.notimplement.happygear.model.mapper.OrderMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
