@@ -25,6 +25,7 @@ public class UserApi {
     @GetMapping("/{username}")
     public ResponseEntity<?> getUserByUserName(@PathVariable(name = "username") String username){
         UserDto userDto = userService.getByUserName(username);
+        if(userDto==null) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(userDto);
     }
 
@@ -53,5 +54,11 @@ public class UserApi {
             return ResponseEntity.ok(userDto);
         }
         return null;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDto userDto){
+        UserDto user = userService.signupAcc(userDto);
+        return ResponseEntity.ok(user);
     }
 }
