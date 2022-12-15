@@ -71,7 +71,7 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 
 	@Override
 	public List<ProductPictureDto> listByProductIdAndStatus(Integer id, Boolean status) {
-		List<ProductPicture> list = repo.findByPictureProductAndStatus(getProductById(id), true);
+		List<ProductPicture> list = repo.findByPictureProductAndStatus(getProductById(id), status);
 		List<ProductPictureDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
 		return listDto;
