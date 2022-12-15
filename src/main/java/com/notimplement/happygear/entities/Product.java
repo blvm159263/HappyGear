@@ -1,14 +1,12 @@
 package com.notimplement.happygear.entities;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Table(name = "tbl_product")
@@ -33,6 +31,9 @@ public class Product {
 	
 	@Column(name = "insurance_info")
 	private String insuranceInfo;
+
+	@Column(name = "picture")
+	private String picture;
 	
 	@Column(name = "status")
 	private Boolean status;

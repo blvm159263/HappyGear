@@ -1,5 +1,6 @@
 package com.notimplement.happygear.service;
 
+import com.notimplement.happygear.entities.Comment;
 import com.notimplement.happygear.model.dto.CommentDto;
 
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 public interface CommentService {
 
     List<CommentDto> getAllCommentDto();
+
+    List<Comment> getAllComment();
 
     CommentDto getCommentById(Integer id);
 
@@ -16,6 +19,6 @@ public interface CommentService {
 
     CommentDto deleteComment(Integer id);
 
-    //List<CommentDto> getAllCommentByUserName(String username);
+    List<CommentDto> getAllCommentByUserName(String username);
 
 }

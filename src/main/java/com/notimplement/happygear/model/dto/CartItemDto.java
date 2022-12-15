@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDto {
-    private Integer commentId;
-    private String content;
-    private String userName;
+public class CartItemDto {
     private Integer productId;
+    private Integer quantity;
+    private Double price;
 }

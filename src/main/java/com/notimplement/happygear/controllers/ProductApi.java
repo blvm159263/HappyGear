@@ -1,20 +1,18 @@
 package com.notimplement.happygear.controllers;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.notimplement.happygear.model.dto.ProductDto;
 import com.notimplement.happygear.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -28,7 +26,49 @@ public class ProductApi {
 	public ResponseEntity<?> listAllProduct(){
 		return ResponseEntity.ok(service.listAll());
 	}
-	
+
+	@GetMapping("/")
+	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
+		Pageable pageable = PageRequest.of(p.orElse(0),9);
+		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/page")
+	public ResponseEntity<?> listProductByPageAndCatgoryAndBrand(@RequestParam("p") Optional<Integer> p,
+																 @RequestParam("b") Optional<Integer> brandId,
+																 @RequestParam("c") Optional<Integer> categoryId,
+																 @RequestParam("f") Optional<Double> fromPrice,
+																 @RequestParam("t") Optional<Double> toPrice){
+		Pageable pageable = PageRequest.of(p.orElse(0),9);
+		Map<List<ProductDto>, Integer> listIntegerMap =
+				service.listByPageCategoryAndBrand(brandId.orElse(1),
+						categoryId.orElse(1), fromPrice.orElse(0d), toPrice.orElse(40000000d), pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/best-seller")
+	public ResponseEntity<?> listTop5ProductByQuanity(){
+		List<ProductDto> list = service.listAllProductWithMinQuantity();
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/latest")
+	public ResponseEntity<?> listLatestProduct(){
+		List<ProductDto> list = service.listAllLatestProduct();
+		return ResponseEntity.ok(list);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProductById(@PathVariable(name ="id") Integer id){
 		return ResponseEntity.ok(service.getById(id));

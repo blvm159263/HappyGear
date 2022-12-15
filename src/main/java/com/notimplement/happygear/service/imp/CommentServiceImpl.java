@@ -18,10 +18,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -31,14 +29,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getAllComment() {
+        return commentRepository.findAll();
+    }
+
+    @Override
     public CommentDto getCommentById(Integer id) {
         return CommentMapper.toCommentDto(commentRepository.findByCommentId(id));
     }
 
     @Override
     public CommentDto createComment(CommentDto commentDto) {
-        Comment newComment = toComment(commentDto);
-        if(newComment!=null){
+        if(commentDto!=null) {
+            Comment newComment = toComment(commentDto);
             commentRepository.save(newComment);
             return CommentMapper.toCommentDto(newComment);
         }
@@ -47,39 +50,35 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto updateComment(CommentDto commentDto, Integer id) {
-        CommentDto updateComment = getCommentById(id);
-        System.out.println(commentDto.getCommentId());
+        Comment updateComment = commentRepository.findByCommentId(id);
         if(updateComment!=null){
-            updateComment.setCommentId(commentDto.getCommentId());
             updateComment.setContent(commentDto.getContent());
-            updateComment.setUserName(commentDto.getUserName());
-            updateComment.setProductId(commentDto.getProductId());
-            commentRepository.save(toComment(updateComment));
-            return updateComment;
+            commentRepository.save(updateComment);
+            return CommentMapper.toCommentDto(updateComment);
         }
         return null;
     }
 
     @Override
     public CommentDto deleteComment(Integer id) {
-        CommentDto updateComment = getCommentById(id);
-        if(updateComment!=null){
-            commentRepository.deleteByCommentId(id);
-            return updateComment;
+        CommentDto deleteComment = getCommentById(id);
+        if(deleteComment!=null){
+            commentRepository.deleteById(id);
+            return deleteComment;
         }
         return null;
     }
 
-//    @Override
-//    public List<CommentDto> getAllCommentByUserName(String username) {
-//        return commentRepository.findAllByUserName(username)
-//                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
-//    }
+    @Override
+    public List<CommentDto> getAllCommentByUserName(String username) {
+        return commentRepository.findAllByUserName(username)
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+    }
 
     private Comment toComment(CommentDto commentDto){
         if(commentDto!=null){
             Comment comment = new Comment();
-            comment.setCommentId(comment.getCommentId());
+            comment.setCommentId(commentDto.getCommentId());
             comment.setContent(commentDto.getContent());
             comment.setCommentUser(userRepository.findByUserName(commentDto.getUserName()));
             comment.setCommentProduct(productRepository.findByProductId(commentDto.getProductId()));

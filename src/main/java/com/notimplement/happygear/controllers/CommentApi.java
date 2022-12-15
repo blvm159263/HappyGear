@@ -3,7 +3,6 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.CommentDto;
 import com.notimplement.happygear.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +23,15 @@ public class CommentApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCommentById(Integer id){
+    public ResponseEntity<?> getCommentById(@PathVariable Integer id){
         CommentDto commentDto = commentService.getCommentById(id);
         return ResponseEntity.ok(commentDto);
     }
 
     @GetMapping("/user-comment/{username}")
     public ResponseEntity<?> getAllCommentOfUserName(@PathVariable(name = "username") String username){
-//        List<CommentDto> listComment = commentService.getAllCommentByUserName(username);
-//        return ResponseEntity.ok(listComment);
-        return null;
+        List<CommentDto> listComment = commentService.getAllCommentByUserName(username);
+        return ResponseEntity.ok(listComment);
     }
 
     @PostMapping("/create")
@@ -44,7 +42,6 @@ public class CommentApi {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateComment(@Valid @RequestBody CommentDto commentDto, @PathVariable Integer id){
-        commentDto.setCommentId(id);
         CommentDto updateComment = commentService.updateComment(commentDto,id);
         return ResponseEntity.ok(updateComment);
     }

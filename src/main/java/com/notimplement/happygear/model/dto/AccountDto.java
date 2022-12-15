@@ -13,5 +13,5 @@ public class AccountDto {
     @NotBlank(message = "Username cannot blank")
     private String username;
     @NotBlank(message = "Password cannot blank")
-    private String pasword;
+    private String password;
 }

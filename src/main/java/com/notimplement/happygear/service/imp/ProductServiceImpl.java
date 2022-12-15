@@ -1,9 +1,15 @@
 package com.notimplement.happygear.service.imp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +41,34 @@ public class ProductServiceImpl implements ProductService{
 		List<ProductDto> listDto = new ArrayList<>();
 		list.forEach(v -> listDto.add(ProductMapper.toProductDto(v)));
 		return listDto;
+	}
+
+	@Override
+	public Map<List<ProductDto>, Integer> listByPage(Pageable pageable){
+		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
+		Page<Product> pageList = repo.findAll(pageable);
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
+		return pair;
+	}
+
+	@Override
+	public Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable){
+		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
+		Page<Product> pageList = repo.findAllProductWithFilter(brandId,categoryId,fromPrice,toPrice, pageable);
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
+		return pair;
+	}
+
+	@Override
+	public List<ProductDto> listAllProductWithMinQuantity(){
+		List<Product> list = repo.findTop5AndOrderByQuantityAsc();
+		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductDto> listAllLatestProduct(){
+		List<Product> list = repo.findLatestProduct();
+		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
 	}
 
 	@Override

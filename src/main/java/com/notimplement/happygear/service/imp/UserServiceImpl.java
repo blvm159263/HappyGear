@@ -37,18 +37,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AccountDto signupAcc(UserDto userDto) {
-        return null;
+    public UserDto signupAcc(UserDto userDto) {
+        String fullName = userDto.getFullName();
+        String userName = userDto.getUserName();
+        String address = userDto.getAddress();
+        String password = userDto.getPassword();
+        String email = userDto.getEmail();
+        String phoneNumber = userDto.getPhoneNumber();
+        Boolean gender = userDto.getGender();
+        Boolean status = Boolean.TRUE;
+        Integer roleId = 2;
+
+        UserDto u = getByUserName(userName);
+        if(u!=null){
+            return null;
+        }
+        UserDto newUser = new UserDto(userName,fullName,address,password,email,phoneNumber,status,gender,roleId);
+        return createUser(newUser);
     }
 
     @Override
-    public AccountDto loginAcc(UserDto userDto) {
-        String username = userDto.getUserName();
-        String password = userDto.getPassword();
+    public UserDto  loginAcc(AccountDto accountDto) {
+        String username = accountDto.getUsername();
+        String password = accountDto.getPassword();
         User user = userRepository.findByUserNameAndPassword(username,password);
         if(user!=null){
-            AccountDto acc = new AccountDto(username,password);
-            return acc;
+            return UserMapper.toUserDto(user);
         }
         return null;
     }
