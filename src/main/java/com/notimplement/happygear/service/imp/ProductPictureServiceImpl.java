@@ -76,4 +76,10 @@ public class ProductPictureServiceImpl implements ProductPictureService{
 		list.forEach(v -> listDto.add(ProductPictureMapper.toProductPictureDto(v)));
 		return listDto;
 	}
+
+	@Override
+	public ProductPictureDto getByProductId(Integer id) {
+		ProductPicture picture = repo.getMainByProductId(id);
+		return ProductPictureMapper.toProductPictureDto(picture);
+	}
 }

@@ -51,4 +51,10 @@ public class ProductPictureApi {
 		List<ProductPictureDto> list = service.listByProductIdAndStatus(id,true);
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("/product-main/{productId}")
+	public ResponseEntity<?> getMainPictureByProductId(@PathVariable(name = "productId") Integer id){
+		ProductPictureDto pic = service.getByProductId(id);
+		return ResponseEntity.ok(pic);
+	}
 }
