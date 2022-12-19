@@ -27,4 +27,6 @@ public interface ProductService {
 	ProductDto update(ProductDto pic);
 
 	ProductDto delete(Integer id);
+
+	Map<List<ProductDto>, Integer> listProductByName(String name, Pageable pageable);
 }

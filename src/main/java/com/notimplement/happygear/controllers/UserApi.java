@@ -50,7 +50,9 @@ public class UserApi {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AccountDto accountDto){
         UserDto userDto = userService.loginAcc(accountDto);
-        return ResponseEntity.ok(userDto);
+        if(userDto!=null)
+            return ResponseEntity.ok(userDto);
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/register")

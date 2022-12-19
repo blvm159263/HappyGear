@@ -60,6 +60,14 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	public Map<List<ProductDto>, Integer> listProductByName(String productName, Pageable pageable){
+		Map<List<ProductDto>, Integer> pair = new HashMap<List<ProductDto>, Integer>();
+		Page<Product> pageList = repo.findByProductNameContainingIgnoreCase(productName, pageable);
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
+		return pair;
+	}
+
+	@Override
 	public List<ProductDto> listAllProductWithMinQuantity(){
 		List<Product> list = repo.findTop5AndOrderByQuantityAsc();
 		return list.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
