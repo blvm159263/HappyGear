@@ -21,4 +21,5 @@ public interface CommentService {
 
     List<CommentDto> getAllCommentByUserName(String username);
 
+    List<CommentDto> getAllChildCommentByParentComment(Integer id);
 }

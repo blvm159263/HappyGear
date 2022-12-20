@@ -51,4 +51,11 @@ public class CommentApi {
         CommentDto deleteComment = commentService.deleteComment(id);
         return ResponseEntity.ok(deleteComment);
     }
+
+    @GetMapping("/all-child-comment/{id}")
+    public ResponseEntity<?> getAllChildComment(@PathVariable Integer id){
+        List<CommentDto> list = commentService.getAllChildCommentByParentComment(id);
+        return ResponseEntity.ok(list);
+    }
+
 }

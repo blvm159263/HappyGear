@@ -21,6 +21,9 @@ public class Comment {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "comment_parent_id")
+    private Integer commentParentId;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonManagedReference

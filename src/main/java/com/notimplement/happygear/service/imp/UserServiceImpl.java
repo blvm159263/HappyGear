@@ -8,6 +8,7 @@ import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAllUserDto() {
@@ -41,11 +44,12 @@ public class UserServiceImpl implements UserService {
         String fullName = userDto.getFullName();
         String userName = userDto.getUserName();
         String address = userDto.getAddress();
-        String password = userDto.getPassword();
+        String password = passwordEncoder.encode(userDto.getPassword());
+        System.out.println(password);
         String email = userDto.getEmail();
         String phoneNumber = userDto.getPhoneNumber();
         Boolean gender = userDto.getGender();
-        Boolean status = Boolean.TRUE;
+        Boolean status = true;
         Integer roleId = 2;
 
         UserDto u = getByUserName(userName);
@@ -57,9 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto  loginAcc(AccountDto accountDto) {
+    public UserDto loginAcc(AccountDto accountDto) {
         String username = accountDto.getUsername();
+//        String password = passwordEncoder.encode(accountDto.getPassword());
         String password = accountDto.getPassword();
+        System.out.println(password);
         User user = userRepository.findByUserNameAndPassword(username,password);
         if(user!=null){
             return UserMapper.toUserDto(user);

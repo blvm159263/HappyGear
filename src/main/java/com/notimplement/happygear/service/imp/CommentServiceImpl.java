@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
@@ -62,9 +65,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto deleteComment(Integer id) {
         CommentDto deleteComment = getCommentById(id);
-        if(deleteComment!=null){
-            commentRepository.deleteById(id);
-            return deleteComment;
+        if(deleteComment!=null) {
+        	if(deleteComment.getCommentParentId() != 0) {
+            	commentRepository.deleteById(id);
+                return deleteComment;
+            }
+            else if(deleteComment.getCommentParentId() == 0) {
+            	commentRepository.deleteByCommentParentId(id);
+            	commentRepository.deleteById(id);
+            	return deleteComment;
+            }
         }
         return null;
     }
@@ -75,11 +85,18 @@ public class CommentServiceImpl implements CommentService {
                 .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<CommentDto> getAllChildCommentByParentComment(Integer id){
+        return commentRepository.findByCommentParentId(id)
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+    }
+
     private Comment toComment(CommentDto commentDto){
         if(commentDto!=null){
             Comment comment = new Comment();
             comment.setCommentId(commentDto.getCommentId());
             comment.setContent(commentDto.getContent());
+            comment.setCommentParentId(commentDto.getCommentParentId());
             comment.setCommentUser(userRepository.findByUserName(commentDto.getUserName()));
             comment.setCommentProduct(productRepository.findByProductId(commentDto.getProductId()));
             return comment;
