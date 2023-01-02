@@ -9,17 +9,20 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Integer> {
+public interface CommentRepository extends JpaRepository<Comment, String> {
 
-    Comment findByCommentId(Integer id);
+    Comment findByCommentId(String id);
 
     @Query("SELECT c FROM Comment c WHERE c.commentUser.userName = ?1")
     List<Comment> findAllByUserName(String username);
     
-    List<Comment> findByCommentParentId(Integer commentParentId);
+    List<Comment> findByCommentParentId(String commentParentId);
 
     @Query("DELETE FROM Comment c WHERE c.commentParentId = ?1")
-    void deleteAllByCommentParentId(Integer id);
+    void deleteAllByCommentParentId(String id);
     
-    void deleteByCommentParentId(Integer id);
+    void deleteByCommentParentId(String id);
+
+    @Query("SELECT c FROM Comment c WHERE c.commentProduct.productId = ?1")
+    List<Comment> findAllByProductId(Integer id);
 }

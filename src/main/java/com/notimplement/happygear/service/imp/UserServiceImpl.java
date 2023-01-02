@@ -23,8 +23,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAllUserDto() {
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
         String fullName = userDto.getFullName();
         String userName = userDto.getUserName();
         String address = userDto.getAddress();
-        String password = passwordEncoder.encode(userDto.getPassword());
+        String password = userDto.getPassword();
         System.out.println(password);
         String email = userDto.getEmail();
         String phoneNumber = userDto.getPhoneNumber();
@@ -63,7 +61,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto loginAcc(AccountDto accountDto) {
         String username = accountDto.getUsername();
-//        String password = passwordEncoder.encode(accountDto.getPassword());
         String password = accountDto.getPassword();
         System.out.println(password);
         User user = userRepository.findByUserNameAndPassword(username,password);

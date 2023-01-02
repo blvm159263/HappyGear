@@ -15,6 +15,7 @@ public class CommentMapper {
             dto.setCommentParentId(comment.getCommentParentId());
             dto.setUserName(comment.getCommentUser().getUserName());
             dto.setProductId(comment.getCommentProduct().getProductId());
+            dto.setAvatarUrl("https://t3.ftcdn.net/jpg/03/42/99/68/360_F_342996846_tHMepJOsXWwbvMpG7uiYpE68wbfQ9e4s.jpg");
             return dto;
         }
         return null;
