@@ -8,11 +8,16 @@ import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -152,4 +157,12 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+	@Override
+	public Map<List<UserDto>, Long> listByPage(Pageable p) {
+		Map<List<UserDto>, Long> pair = new HashMap<List<UserDto>, Long>();
+		Page<User> pageList = userRepository.findAll(p);
+		pair.put(pageList.stream().map(UserMapper::toUserDto).collect(Collectors.toList()), pageList.getTotalElements());
+		return pair;
+	}
 }
