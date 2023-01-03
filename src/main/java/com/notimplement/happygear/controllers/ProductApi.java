@@ -26,11 +26,29 @@ public class ProductApi {
 	public ResponseEntity<?> listAllProduct(){
 		return ResponseEntity.ok(service.listAll());
 	}
+	
+	@GetMapping("/total")
+	public ResponseEntity<?> totalProduct(){
+		return ResponseEntity.ok(service.totalProduct());
+	}
 
 	@GetMapping("/")
 	public ResponseEntity<?> listProductByPage(@RequestParam("p") Optional<Integer> p){
 		Pageable pageable = PageRequest.of(p.orElse(0),9);
 		Map<List<ProductDto>, Integer> listIntegerMap = service.listByPage(pageable);
+		List<Object> list = new ArrayList<>();
+		listIntegerMap.forEach((productDtos, integer) -> {
+			list.add(productDtos);
+			list.add(integer);
+		});
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/name")
+	public ResponseEntity<?> listProductByPageAndName(@RequestParam("name") String name,
+													  @RequestParam("p") Optional<Integer> p){
+		Pageable pageable = PageRequest.of(p.orElse(0),9);
+		Map<List<ProductDto>, Long> listIntegerMap = service.listByPageAndName(name, pageable);
 		List<Object> list = new ArrayList<>();
 		listIntegerMap.forEach((productDtos, integer) -> {
 			list.add(productDtos);

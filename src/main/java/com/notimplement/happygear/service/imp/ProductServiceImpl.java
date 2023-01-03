@@ -58,6 +58,14 @@ public class ProductServiceImpl implements ProductService{
 		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalPages());
 		return pair;
 	}
+	
+	@Override
+	public Map<List<ProductDto>, Long> listByPageAndName(String productName, Pageable pageable) {
+		Map<List<ProductDto>, Long> pair = new HashMap<List<ProductDto>, Long>();
+		Page<Product> pageList = repo.findByProductNameContaining(productName, pageable);
+		pair.put(pageList.stream().map(ProductMapper::toProductDto).collect(Collectors.toList()), pageList.getTotalElements());
+		return pair;
+	}
 
 	@Override
 	public List<ProductDto> listAllProductWithMinQuantity(){
@@ -115,5 +123,12 @@ public class ProductServiceImpl implements ProductService{
 	private Brand getBrandById(Integer id) {
 		return brandRepo.findById(id).get();
 	}
+	
+	public Long totalProduct() {
+		Long total = repo.count();
+		return total;
+	}
+
+	
 	
 }

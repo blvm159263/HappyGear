@@ -30,7 +30,7 @@ public class ProductDto {
 	@NotNull
 	private String insuranceInfo;
 
-	@NotNull
+	
 	private String picture;
 
 	private Boolean status;

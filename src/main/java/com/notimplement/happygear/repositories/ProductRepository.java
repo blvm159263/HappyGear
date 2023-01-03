@@ -23,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 
     @Query(value = "SELECT p.* FROM tbl_product p ORDER BY p.product_id DESC LIMIT 4",nativeQuery = true)
     List<Product> findLatestProduct();
+    
+    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
+    
 }

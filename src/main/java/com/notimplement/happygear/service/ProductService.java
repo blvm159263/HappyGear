@@ -9,12 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 
 public interface ProductService {
-	
+
 	List<ProductDto> listAll();
 
 	Map<List<ProductDto>, Integer> listByPage(Pageable pageable);
 
-	Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice, Double toPrice, Pageable pageable);
+	Map<List<ProductDto>, Integer> listByPageCategoryAndBrand(Integer brandId, Integer categoryId, Double fromPrice,
+			Double toPrice, Pageable pageable);
 
 	List<ProductDto> listAllProductWithMinQuantity();
 
@@ -27,4 +28,8 @@ public interface ProductService {
 	ProductDto update(ProductDto pic);
 
 	ProductDto delete(Integer id);
+
+	Long totalProduct();
+
+	Map<List<ProductDto>, Long> listByPageAndName(String productName, Pageable pageable);
 }
