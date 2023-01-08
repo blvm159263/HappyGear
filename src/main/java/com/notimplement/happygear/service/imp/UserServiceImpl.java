@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto signupAcc(UserDto userDto) {
         String fullName = userDto.getFullName();
-        String userName = userDto.getUserName();
+        String userName = userDto.getUsername();
         String address = userDto.getAddress();
         String password = userDto.getPassword();
         String email = userDto.getEmail();
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     public UserDto  loginAcc(AccountDto accountDto) {
         String username = accountDto.getUsername();
         String password = accountDto.getPassword();
-        User user = userRepository.findByUserNameAndPassword(username,password);
+        User user = userRepository.findByUsernameAndPassword(username,password);
         if(user!=null){
             return UserMapper.toUserDto(user);
         }
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByUserName(String username) {
-        return UserMapper.toUserDto(userRepository.findByUserName(username));
+        return UserMapper.toUserDto(userRepository.findByUsername(username).orElseThrow());
     }
 
     @Override
@@ -93,10 +93,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto deleteUser(String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         if(user!=null){
             User savedUser = new User(
-                    user.getUserName(),
+                    user.getUsername(),
                     user.getFullName(),
                     user.getPassword(),
                     user.getAddress(),
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         if(user!=null){
             User updatedUser = toUser(userDto);
             userRepository.save(updatedUser);
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
     private User toUser(UserDto dto){
         if(dto!=null){
             User u = new User();
-            u.setUserName(dto.getUserName());
+            u.setUsername(dto.getUsername());
             u.setPassword(dto.getPassword());
             u.setFullName(dto.getFullName());
             u.setAddress(dto.getAddress());

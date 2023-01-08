@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(orderDto.getDate());
         order.setTotal(orderDto.getTotal());
         order.setStatus(orderDto.getStatus());
-        order.setOrderUser(userRepository.findByUserName(orderDto.getUserName()));
+        order.setOrderUser(userRepository.findByUsername(orderDto.getUserName()).orElseThrow());
         return order;
     }
 }

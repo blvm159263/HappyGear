@@ -12,7 +12,7 @@ public class CommentMapper {
             CommentDto dto = new CommentDto();
             dto.setCommentId(comment.getCommentId());
             dto.setContent(comment.getContent());
-            dto.setUserName(comment.getCommentUser().getUserName());
+            dto.setUserName(comment.getCommentUser().getUsername());
             dto.setProductId(comment.getCommentProduct().getProductId());
             return dto;
         }

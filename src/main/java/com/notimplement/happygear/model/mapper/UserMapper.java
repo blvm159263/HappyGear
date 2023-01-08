@@ -10,7 +10,7 @@ public class UserMapper {
     public static UserDto toUserDto(User user) {
         if(user!=null){
             UserDto dto = new UserDto();
-            dto.setUserName(user.getUserName());
+            dto.setUsername(user.getUsername());
             dto.setPassword(user.getPassword());
             dto.setFullName(user.getFullName());
             dto.setAddress(user.getAddress());
