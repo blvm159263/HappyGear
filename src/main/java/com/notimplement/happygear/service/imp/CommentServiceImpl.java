@@ -122,8 +122,7 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = new Comment();
             comment.setCommentId(commentDto.getCommentId());
             comment.setContent(commentDto.getContent());
-            comment.setCommentParentId(commentDto.getCommentParentId());
-            comment.setCommentUser(userRepository.findByUserName(commentDto.getUserName()));
+            comment.setCommentUser(userRepository.findByUsername(commentDto.getUserName()).orElseThrow());
             comment.setCommentProduct(productRepository.findByProductId(commentDto.getProductId()));
             return comment;
         }

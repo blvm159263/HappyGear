@@ -9,11 +9,16 @@ import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto signupAcc(UserDto userDto) {
         String fullName = userDto.getFullName();
-        String userName = userDto.getUserName();
+        String userName = userDto.getUsername();
         String address = userDto.getAddress();
         String password = userDto.getPassword();
         System.out.println(password);
@@ -62,8 +67,7 @@ public class UserServiceImpl implements UserService {
     public UserDto loginAcc(AccountDto accountDto) {
         String username = accountDto.getUsername();
         String password = accountDto.getPassword();
-        System.out.println(password);
-        User user = userRepository.findByUserNameAndPassword(username,password);
+        User user = userRepository.findByUsernameAndPassword(username,password);
         if(user!=null){
             return UserMapper.toUserDto(user);
         }
@@ -72,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getByUserName(String username) {
-        return UserMapper.toUserDto(userRepository.findByUserName(username));
+        return UserMapper.toUserDto(userRepository.findByUsername(username).orElseThrow());
     }
 
     @Override
@@ -91,10 +95,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto deleteUser(String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         if(user!=null){
             User savedUser = new User(
-                    user.getUserName(),
+                    user.getUsername(),
                     user.getFullName(),
                     user.getPassword(),
                     user.getAddress(),
@@ -112,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         if(user!=null){
             User updatedUser = toUser(userDto);
             userRepository.save(updatedUser);
@@ -142,7 +146,7 @@ public class UserServiceImpl implements UserService {
     private User toUser(UserDto dto){
         if(dto!=null){
             User u = new User();
-            u.setUserName(dto.getUserName());
+            u.setUsername(dto.getUsername());
             u.setPassword(dto.getPassword());
             u.setFullName(dto.getFullName());
             u.setAddress(dto.getAddress());
@@ -155,4 +159,12 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+	@Override
+	public Map<List<UserDto>, Long> listByPage(Pageable p) {
+		Map<List<UserDto>, Long> pair = new HashMap<List<UserDto>, Long>();
+		Page<User> pageList = userRepository.findAll(p);
+		pair.put(pageList.stream().map(UserMapper::toUserDto).collect(Collectors.toList()), pageList.getTotalElements());
+		return pair;
+	}
 }

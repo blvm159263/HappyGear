@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserDto {
     @NotNull(message = "Username is required")
-    private String userName;
+    private String username;
 
     @NotNull
     @Size(min = 6, message = "FullName must have at least 6 character")
@@ -43,6 +43,6 @@ public class UserDto {
     private Integer roleId;
 
     public UserDto(String username) {
-        this.userName = username;
+        this.username = username;
     }
 }

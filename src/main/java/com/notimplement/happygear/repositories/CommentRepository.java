@@ -13,7 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment, String> {
 
     Comment findByCommentId(String id);
 
-    @Query("SELECT c FROM Comment c WHERE c.commentUser.userName = ?1")
+    @Query("SELECT c FROM Comment c where c.commentUser.username = ?1")
     List<Comment> findAllByUserName(String username);
     
     List<Comment> findByCommentParentId(String commentParentId);

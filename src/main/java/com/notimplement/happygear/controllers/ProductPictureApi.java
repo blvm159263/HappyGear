@@ -21,8 +21,13 @@ public class ProductPictureApi {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getProductPictureById(@PathVariable(name ="id") Integer id){
+	public ResponseEntity<?> getPictureById(@PathVariable(name ="id") Integer id){
 		return ResponseEntity.ok(service.getById(id));
+	}
+	
+	@GetMapping("/product/{id}")
+	public ResponseEntity<?> getPictureByProductId(@PathVariable(name ="id") Integer id){
+		return ResponseEntity.ok(service.listByProductIdAndStatus(id,true));
 	}
 	
 	@PostMapping("/create")
@@ -45,5 +50,11 @@ public class ProductPictureApi {
 	public ResponseEntity<?> getProductPictureByProductId(@PathVariable(name = "productId") Integer id){
 		List<ProductPictureDto> list = service.listByProductIdAndStatus(id,true);
 		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/product-main/{productId}")
+	public ResponseEntity<?> getMainPictureByProductId(@PathVariable(name = "productId") Integer id){
+		ProductPictureDto pic = service.getByProductId(id);
+		return ResponseEntity.ok(pic);
 	}
 }

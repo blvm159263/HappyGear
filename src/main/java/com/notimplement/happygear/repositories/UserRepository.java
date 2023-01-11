@@ -6,16 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,String> {
-    User findByUserName(String username);
 
     @Query("SELECT u FROM User u WHERE u.status = true")
     List<User> findAllUserWithActiveStatus();
 
     List<User> findByFullNameContainingIgnoreCase(String name);
 
-    User findByUserNameAndPassword(String username, String password);
+    User findByUsernameAndPassword(String username, String password);
+    
+    Optional<User> findByUsername(String username);
 
 }

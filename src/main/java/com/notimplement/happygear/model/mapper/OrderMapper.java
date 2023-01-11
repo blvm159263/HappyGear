@@ -14,7 +14,7 @@ public class OrderMapper {
     public static OrderDto toOrderDto(Order order){
         OrderDto orderDto = new OrderDto();
         orderDto.setOrderId(order.getOrderId());
-        orderDto.setUserName(order.getOrderUser().getUserName());
+        orderDto.setUserName(order.getOrderUser().getUsername());
         orderDto.setDate(order.getDate());
         orderDto.setTotal(order.getTotal());
         orderDto.setStatus(order.getStatus());
