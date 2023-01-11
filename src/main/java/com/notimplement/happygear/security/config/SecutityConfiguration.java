@@ -25,15 +25,11 @@ public class SecutityConfiguration {
 	 @Bean
 	  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
-	        .csrf()
-	        .disable()
+	        .cors().and().csrf().disable()
 	        .authorizeHttpRequests()
-	        .antMatchers("/api/v1/auth/**")
-	        .permitAll()
-	        .antMatchers(HttpMethod.GET , "/api/roles/**")
-	        .hasAnyAuthority("role_admin")
-	        .anyRequest()
-	        .authenticated()
+	        .antMatchers("/api/v1/auth/**").permitAll()
+	        .antMatchers("/api/admin/**").hasAnyAuthority("role_admin")
+//	        .anyRequest().authenticated()
 	        .and()
 	        .sessionManagement()
 	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

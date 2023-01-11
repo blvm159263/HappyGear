@@ -38,7 +38,8 @@ public class AuthenticationService {
 		var user = userRepo.findByUsername(request.getUsername())
 				.orElseThrow();
 		var jwtToken = jwtService.generateToken(user);
-		return AuthenticationResponse.builder().token(jwtToken).build();
+		var roleName = user.getRole().getRoleName();
+		return AuthenticationResponse.builder().token(jwtToken).roleName(roleName).build();
 	}
 
 }

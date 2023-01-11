@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		final String userName;
 		if(authHeader == null || !authHeader.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
+			System.out.println("loi o day ne");
 			return;
 		}
 		jwt = authHeader.substring(7);
