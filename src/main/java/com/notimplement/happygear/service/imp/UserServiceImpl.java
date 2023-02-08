@@ -8,6 +8,7 @@ import com.notimplement.happygear.repositories.RoleRepository;
 import com.notimplement.happygear.repositories.UserRepository;
 import com.notimplement.happygear.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,11 @@ public class UserServiceImpl implements UserService {
         String userName = userDto.getUsername();
         String address = userDto.getAddress();
         String password = userDto.getPassword();
+        System.out.println(password);
         String email = userDto.getEmail();
         String phoneNumber = userDto.getPhoneNumber();
         Boolean gender = userDto.getGender();
-        Boolean status = Boolean.TRUE;
+        Boolean status = true;
         Integer roleId = 2;
 
         UserDto u = getByUserName(userName);
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto  loginAcc(AccountDto accountDto) {
+    public UserDto loginAcc(AccountDto accountDto) {
         String username = accountDto.getUsername();
         String password = accountDto.getPassword();
         User user = userRepository.findByUsernameAndPassword(username,password);

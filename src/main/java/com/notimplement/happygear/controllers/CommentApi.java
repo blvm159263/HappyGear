@@ -3,6 +3,7 @@ package com.notimplement.happygear.controllers;
 import com.notimplement.happygear.model.dto.CommentDto;
 import com.notimplement.happygear.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,15 @@ public class CommentApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCommentById(@PathVariable Integer id){
+    public ResponseEntity<?> getCommentById(@PathVariable String id){
         CommentDto commentDto = commentService.getCommentById(id);
         return ResponseEntity.ok(commentDto);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<?> getCommentByProductId(@PathVariable Integer id){
+        List<CommentDto> list = commentService.getCommentByProductId(id);
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/user-comment/{username}")
@@ -41,14 +48,21 @@ public class CommentApi {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateComment(@Valid @RequestBody CommentDto commentDto, @PathVariable Integer id){
-        CommentDto updateComment = commentService.updateComment(commentDto,id);
-        return ResponseEntity.ok(updateComment);
+    public ResponseEntity<?> updateComment(@Valid @RequestBody CommentDto commentDto, @PathVariable String id){
+        CommentDto newCommentDto = commentService.updateComment(commentDto, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCommentDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteComment(@PathVariable Integer id){
+    public ResponseEntity<?> deleteComment(@PathVariable String id){
         CommentDto deleteComment = commentService.deleteComment(id);
         return ResponseEntity.ok(deleteComment);
     }
+
+    @GetMapping("/all-child-comment/{id}")
+    public ResponseEntity<?> getAllChildComment(@PathVariable String id){
+        List<CommentDto> list = commentService.getAllChildCommentByParentComment(id);
+        return ResponseEntity.ok(list);
+    }
+
 }

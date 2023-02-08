@@ -10,10 +10,13 @@ import com.notimplement.happygear.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
@@ -25,7 +28,34 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAllCommentDto() {
-        return commentRepository.findAll().stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        List<CommentDto> res = new ArrayList<>();
+        List<CommentDto> list = commentRepository.findAll()
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        list.forEach(c -> {
+            if (c.getCommentParentId() == null) {
+                c.setReplies(getAllChildCommentByParentComment(c.getCommentId()));
+            }
+        });
+        list.forEach(c -> {
+            if (c.getCommentParentId() == null) res.add(c);
+        });
+        return res;
+    }
+
+    @Override
+    public List<CommentDto> getCommentByProductId(Integer id) {
+        List<CommentDto> res = new ArrayList<>();
+        List<CommentDto> list = commentRepository.findAllByProductId(id)
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+        list.forEach(c -> {
+            if (c.getCommentParentId() == null) {
+                c.setReplies(getAllChildCommentByParentComment(c.getCommentId()));
+            }
+        });
+        list.forEach(c -> {
+            if (c.getCommentParentId() == null) res.add(c);
+        });
+        return res;
     }
 
     @Override
@@ -34,13 +64,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto getCommentById(Integer id) {
+    public CommentDto getCommentById(String id) {
         return CommentMapper.toCommentDto(commentRepository.findByCommentId(id));
     }
 
     @Override
     public CommentDto createComment(CommentDto commentDto) {
-        if(commentDto!=null) {
+        if (commentDto != null) {
             Comment newComment = toComment(commentDto);
             commentRepository.save(newComment);
             return CommentMapper.toCommentDto(newComment);
@@ -49,22 +79,28 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto updateComment(CommentDto commentDto, Integer id) {
-        Comment updateComment = commentRepository.findByCommentId(id);
-        if(updateComment!=null){
-            updateComment.setContent(commentDto.getContent());
-            commentRepository.save(updateComment);
-            return CommentMapper.toCommentDto(updateComment);
+    public CommentDto updateComment(CommentDto commentDto, String id) {
+        Comment comment = commentRepository.findByCommentId(id);
+        if (comment != null) {
+            comment.setContent(commentDto.getContent());
+            commentRepository.save(comment);
+            return CommentMapper.toCommentDto(comment);
         }
         return null;
     }
 
     @Override
-    public CommentDto deleteComment(Integer id) {
+    public CommentDto deleteComment(String id) {
         CommentDto deleteComment = getCommentById(id);
-        if(deleteComment!=null){
-            commentRepository.deleteById(id);
-            return deleteComment;
+        if (deleteComment != null) {
+            if (deleteComment.getCommentParentId() != null) {
+                commentRepository.deleteById(id);
+                return deleteComment;
+            } else if (deleteComment.getCommentParentId() == null) {
+                commentRepository.deleteByCommentParentId(id);
+                commentRepository.deleteById(id);
+                return deleteComment;
+            }
         }
         return null;
     }
@@ -75,8 +111,14 @@ public class CommentServiceImpl implements CommentService {
                 .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
     }
 
-    private Comment toComment(CommentDto commentDto){
-        if(commentDto!=null){
+    @Override
+    public List<CommentDto> getAllChildCommentByParentComment(String id) {
+        return commentRepository.findByCommentParentId(id)
+                .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
+    }
+
+    private Comment toComment(CommentDto commentDto) {
+        if (commentDto != null) {
             Comment comment = new Comment();
             comment.setCommentId(commentDto.getCommentId());
             comment.setContent(commentDto.getContent());
