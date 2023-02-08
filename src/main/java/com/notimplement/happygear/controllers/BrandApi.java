@@ -41,4 +41,8 @@ public class BrandApi {
 		return ResponseEntity.ok(service.delete(id));
 	}
 	
+	@GetMapping("/customer")
+	public ResponseEntity<?> listAllForCus(){
+		return ResponseEntity.ok(service.listAllForCus());
+	}
 }
