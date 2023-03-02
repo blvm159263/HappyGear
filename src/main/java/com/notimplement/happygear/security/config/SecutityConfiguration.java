@@ -27,15 +27,15 @@ public class SecutityConfiguration {
 	    http
 	        .cors().and().csrf().disable()
 	        .authorizeHttpRequests()
-	        .antMatchers("/api/v1/auth/**").permitAll()
-	        .antMatchers("/api/admin/**").hasAnyAuthority("role_admin")
+			.antMatchers("/api/v1/auth/**").permitAll()
+//	        .antMatchers("/api/admin/**").hasAnyAuthority("role_admin")
 //	        .anyRequest().authenticated()
 	        .and()
 	        .sessionManagement()
 	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	        .and()
-	        .authenticationProvider(authenticationProvider)
-	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+	        .authenticationProvider(authenticationProvider);
+//	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 	    return http.build();
 	  }
