@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: happygear
+      MYSQL_DATABASE: happygear
+    volumes:
+       - mysql:/data/mysql
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - mysql
+    restart: unless-stopped
+networks:
+  mysql:
+    driver: bridge
+volumes:
+  mysql:

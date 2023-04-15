@@ -48,12 +48,10 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDto> list = commentRepository.findAllByProductId(id)
                 .stream().map(CommentMapper::toCommentDto).collect(Collectors.toList());
         list.forEach(c -> {
-            if (c.getCommentParentId() == null) {
-                c.setReplies(getAllChildCommentByParentComment(c.getCommentId()));
+            CommentDto commentDto = getCommentById(c.getCommentId());
+            if(commentDto.getCommentParentId() == null) {
+                res.add(commentDto);
             }
-        });
-        list.forEach(c -> {
-            if (c.getCommentParentId() == null) res.add(c);
         });
         return res;
     }
@@ -65,7 +63,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto getCommentById(String id) {
-        return CommentMapper.toCommentDto(commentRepository.findByCommentId(id));
+        Comment comment = commentRepository.findByCommentId(id);
+        if (comment == null) return null;
+        CommentDto commentDto = CommentMapper.toCommentDto(comment);
+        List<CommentDto> child = new ArrayList<>();
+        List<CommentDto> replies = getAllChildCommentByParentComment(id);
+        for(CommentDto c : replies) {
+            child.add(getCommentById(c.getCommentId()));
+        }
+        commentDto.setReplies(child);
+        return commentDto;
     }
 
     @Override
