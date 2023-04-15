@@ -2,7 +2,6 @@ package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.model.dto.RoleDto;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface RoleService {

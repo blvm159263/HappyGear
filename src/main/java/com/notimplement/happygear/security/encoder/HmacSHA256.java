@@ -1,7 +1,5 @@
 package com.notimplement.happygear.security.encoder;
 
-import org.springframework.stereotype.Component;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;

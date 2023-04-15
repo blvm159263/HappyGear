@@ -1,7 +1,6 @@
 package com.notimplement.happygear.service;
 
 import com.notimplement.happygear.entities.OrderDetail;
-import com.notimplement.happygear.entities.Product;
 import com.notimplement.happygear.model.dto.CartItemDto;
 import com.notimplement.happygear.model.dto.OrderDetailDto;
 
