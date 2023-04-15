@@ -7,10 +7,6 @@ public enum UserRole {
 
     Integer value;
 
-    private Integer getValue(Integer value){
-        return this.value;
-    }
-
     private UserRole(Integer value){
         this.value = value;
     }
