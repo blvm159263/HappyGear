@@ -10,12 +10,25 @@ services:
        - mysql:/data/mysql
     ports:
       - "3306:3306"
-    command: --default-authentication-plugin=mysql_native_password
-    networks:
+
+  api-server:
+    container_name: api-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
       - mysql
     restart: unless-stopped
-networks:
-  mysql:
-    driver: bridge
+  
+  nginx:
+    build: 
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+     - "8081:80"
 volumes:
   mysql:
+  nginx:
+  api-server:
