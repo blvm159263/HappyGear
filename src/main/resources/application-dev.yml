@@ -6,8 +6,3 @@ spring:
     url: jdbc:mysql://localhost:3306/happygear
     username: root
     password: happygear
-  # migrate database
-  flyway:
-    url: jdbc:mysql://localhost:3306/happygear
-    username: root
-    password: happygear

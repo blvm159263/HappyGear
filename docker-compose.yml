@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: happygear
       MYSQL_DATABASE: happygear
-    # volumes:
-    #    - mysql:/data/mysql
+    volumes:
+       - mysql:/data/mysql
     ports:
       - "3306:3306"
 
