@@ -5,7 +5,7 @@
 # # go to target folder
 # cd target
 
-# # run spring boot application
+# run spring boot application
 # java -jar happygear-0.0.1-SNAPSHOT.jar
 
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
+mvn spring-boot:run -Pdev
