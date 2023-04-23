@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: happygear
+  profiles:
+    active: @profileActive@
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+    swagger:
+      v2:
+        enabled: true
+server:
+  port: 8080
+  servlet:
+    context-path: /happygear
+  
+spring.mvc.pathmatch.matching-strategy: ant_path_matcher
