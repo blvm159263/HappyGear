@@ -3,6 +3,6 @@ spring:
     activate:
       on-profile: stag
   datasource:
-    url: jdbc:mysql://localhost:3306/happygear
+    url: jdbc:mysql://mysql:3306/happygear
     username: root
     password: happygear
