@@ -24,7 +24,8 @@ public class SwaggerConfig {
     }
     
     private ApiInfo apiInfo() {
-    	return new ApiInfoBuilder().title("Happy Gear API")
+    	return new ApiInfoBuilder()
+                .title("Happy Gear API")
     			.description("Happy Gear store")
     			.termsOfServiceUrl("")
     			.license("").version("1.0").build();
