@@ -23,7 +23,7 @@
 MANIFEST.MF
 _site/
 activemq-data
-bin
+bin/
 build
 !/**/src/**/bin
 !/**/src/**/build
@@ -40,3 +40,4 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+.mvn/
