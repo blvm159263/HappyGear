@@ -3,6 +3,7 @@ package com.notimplement.happygear.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.notimplement.happygear.model.dto.CategoryDto;
 import com.notimplement.happygear.service.CategoryService;
+import com.notimplement.happygear.util.ResponseUtils;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -24,12 +26,32 @@ public class CategoryApi {
 	
 	@GetMapping("")
 	public ResponseEntity<?> listAllCategory(){
-		return ResponseEntity.ok(service.listAll());
+		var results = service.listAll();
+		if(results.isEmpty()) {
+			return new ResponseEntity<>(
+				ResponseUtils.error(
+					HttpStatus.NOT_FOUND,
+					"Not found",
+					""
+				),
+				HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getCategoryById(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(service.getById(id));
+		var results = service.getById(id);
+		if(results == null) {
+			return new ResponseEntity<>(
+				ResponseUtils.error(
+					HttpStatus.NOT_FOUND,
+					"Catergory Id Not found",
+					""
+				),
+				HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
 	}
 	
 	@PostMapping("/create")

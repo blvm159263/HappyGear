@@ -30,7 +30,11 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto getById(Integer id) {
-		return CategoryMapper.toCategoryDto(repo.findById(id).get());
+		var cate = repo.findById(id).orElse(null);
+		if(cate == null) {
+			return null;
+		}
+		return CategoryMapper.toCategoryDto(cate);
 	}
 
 	@Override
@@ -47,7 +51,10 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public CategoryDto delete(Integer id) {
-		Category cate = repo.findById(id).get();
+		Category cate = repo.findById(id).orElse(null);
+		if(cate == null) {
+			return null;
+		}
 		cate.setStatus(false);
 		return CategoryMapper.toCategoryDto(repo.save(cate));
 	}
