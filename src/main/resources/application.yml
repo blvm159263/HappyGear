@@ -17,11 +17,8 @@ spring:
 
 springfox:
   documentation:
-    swagger-ui:
-      enabled: true
     swagger:
-      v2:
-        enabled: true
+      use-model-v3: false
 server:
   port: 8080
   servlet:

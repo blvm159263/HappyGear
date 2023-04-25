@@ -1,5 +1,6 @@
 package com.notimplement.happygear.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -14,11 +15,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("happy-gear-api")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.notimplement.happygear.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -26,7 +29,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
     	return new ApiInfoBuilder()
                 .title("Happy Gear API")
-    			.description("Happy Gear store")
+    			.description("Happy Gear API for developer")
     			.termsOfServiceUrl("")
     			.license("").version("1.0").build();
     }

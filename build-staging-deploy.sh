@@ -5,4 +5,4 @@ mvn clean package -DskipTests -Pstag
 
 # deploy to staging server
 echo "Deploy to staging server"
-scp -r target admin@13.215.150.32:~/happygear
+scp -r target happygear@20.2.64.67:~/happygear

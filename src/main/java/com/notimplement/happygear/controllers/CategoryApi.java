@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.notimplement.happygear.entities.ApiResponse;
+import com.notimplement.happygear.entities.Category;
 import com.notimplement.happygear.model.dto.CategoryDto;
 import com.notimplement.happygear.service.CategoryService;
 import com.notimplement.happygear.util.ResponseUtils;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -25,33 +30,74 @@ public class CategoryApi {
 	CategoryService service;
 	
 	@GetMapping("")
+	@ApiOperation(value = "List all category", response = CategoryDto.class, responseContainer = "List")
+	@ApiResponses(value = {
+		@io.swagger.annotations.ApiResponse(
+			code = 200, message = "Success", response = CategoryDto.class, responseContainer = "List"
+		),
+		@io.swagger.annotations.ApiResponse(
+			code = 404, message = "Not found"
+		),
+		@io.swagger.annotations.ApiResponse(
+			code = 500, message = "Internal server error"
+		)
+	})
 	public ResponseEntity<?> listAllCategory(){
-		var results = service.listAll();
-		if(results.isEmpty()) {
+		try {
+			var results = service.listAll();
+			if(results.isEmpty()) {
+				return new ResponseEntity<>(
+					ResponseUtils.error(HttpStatus.NOT_FOUND,"Not found",""),
+					HttpStatus.NOT_FOUND
+				);
+			}
+			return new ResponseEntity<>(
+				ResponseUtils.success(results, "Success"), HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(
 				ResponseUtils.error(
-					HttpStatus.NOT_FOUND,
-					"Not found",
-					""
-				),
-				HttpStatus.NOT_FOUND);
+					HttpStatus.INTERNAL_SERVER_ERROR, 
+					"Internal server error",
+					e.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Get category by id", response = CategoryDto.class)
+	@ApiResponses(value = {
+		@io.swagger.annotations.ApiResponse(
+			code = 200, message = "Success", response = CategoryDto.class, responseContainer = "Object"
+		),
+		@io.swagger.annotations.ApiResponse(
+			code = 404, message = "Not found"
+		),
+		@io.swagger.annotations.ApiResponse(
+			code = 500, message = "Internal server error"
+		)
+	})
 	public ResponseEntity<?> getCategoryById(@PathVariable(name ="id") Integer id){
-		var results = service.getById(id);
-		if(results == null) {
+		try {
+			var results = service.getById(id);
+			if(results == null) {
+				return new ResponseEntity<>(
+					ResponseUtils.error(
+						HttpStatus.NOT_FOUND,
+						"Catergory Id Not found",
+						""
+					),
+					HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(
-				ResponseUtils.error(
-					HttpStatus.NOT_FOUND,
-					"Catergory Id Not found",
-					""
-				),
-				HttpStatus.NOT_FOUND);
+					ResponseUtils.error(
+						HttpStatus.INTERNAL_SERVER_ERROR,
+						"Internal server error",
+						""
+					),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
 	}
 	
 	@PostMapping("/create")
