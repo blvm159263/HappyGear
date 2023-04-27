@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.notimplement.happygear.entities.ApiResponse;
-import com.notimplement.happygear.entities.Category;
 import com.notimplement.happygear.model.dto.CategoryDto;
 import com.notimplement.happygear.service.CategoryService;
 import com.notimplement.happygear.util.ResponseUtils;
