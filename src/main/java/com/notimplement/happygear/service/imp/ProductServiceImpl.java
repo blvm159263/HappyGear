@@ -136,6 +136,17 @@ public class ProductServiceImpl implements ProductService{
 		return total;
 	}
 
-	
-	
+	@Override
+	public Product getProductById(Integer id) {
+		Product p = repo.findById(id).orElse(null);
+		return p;
+	}
+
+	@Override
+	public Map<List<Product>, Integer> listAllProductByPage(Pageable pageable) {
+		Map<List<Product>, Integer> pair = new HashMap<>();
+		Page<Product> pageList = repo.findAll(pageable);
+		pair.put(pageList.stream().collect(Collectors.toList()), pageList.getTotalPages());
+		return pair;
+	}
 }

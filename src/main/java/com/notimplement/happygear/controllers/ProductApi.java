@@ -1,10 +1,12 @@
 package com.notimplement.happygear.controllers;
-
 import com.notimplement.happygear.model.dto.ProductDto;
 import com.notimplement.happygear.service.ProductService;
+import com.notimplement.happygear.util.ResponseUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,18 @@ public class ProductApi {
 
 	@Autowired
 	ProductService service;
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> test(@PathVariable("id") Integer id){
+		var results = service.getProductById(id);
+		if(results == null){
+			return new ResponseEntity<>(
+				ResponseUtils.error(HttpStatus.NOT_FOUND,"Not Found",""),
+				HttpStatus.NOT_FOUND
+			);
+		}
+		return new ResponseEntity<>(ResponseUtils.success(results, "Success"), HttpStatus.OK);
+	}
 	
 	@GetMapping("")
 	public ResponseEntity<?> listAllProduct(){
@@ -99,11 +113,6 @@ public class ProductApi {
 	public ResponseEntity<?> listLatestProduct(){
 		List<ProductDto> list = service.listAllLatestProduct();
 		return ResponseEntity.ok(list);
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getProductById(@PathVariable(name ="id") Integer id){
-		return ResponseEntity.ok(service.getById(id));
 	}
 	
 	@PostMapping("/create")
